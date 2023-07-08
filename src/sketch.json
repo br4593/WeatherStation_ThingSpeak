@@ -1,0 +1,22 @@
+{
+  "cpu": {
+    "fqbn": "esp32:esp32:lolin_s2_mini:CDCOnBoot=default,DFUOnBoot=default,DebugLevel=none,EraseFlash=none,MSCOnBoot=default,PartitionScheme=default",
+    "name": "LOLIN S2 Mini",
+    "type": "serial"
+  },
+  "secrets": [
+    {
+      "name": "SECRET_DEVICE_KEY",
+      "value": ""
+    },
+    {
+      "name": "SECRET_OPTIONAL_PASS",
+      "value": ""
+    },
+    {
+      "name": "SECRET_SSID",
+      "value": ""
+    }
+  ],
+  "included_libs": []
+}

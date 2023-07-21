@@ -21,6 +21,16 @@
 #define NETWORK "rodoy"
 #define PASSWORD "0544543538"
 
+//ThingSpeak definitions
+#define TS_CH 2209504
+#define TS_API_KEY "OF6CVEMHFWTZXMYO"
+#define HUMIDITY_CH 2
+#define TEMP_CH 1
+#define PRESSURE_CH 3
+#define WIND_SPD_CH 4
+#define WIND_DIR_CH 5
+#define VPD_CH 6
+
 // Pin Definitions
 #define SDA 33
 #define SCL 35
@@ -69,8 +79,8 @@ struct ErrorInfo {
  * @param[out] wind_speed - Wind speed reading
  * @param[out] wind_direction - Wind direction reading
  */
-void readSensorData(float& temperature, float& humidity, float& pressure, float& wind_speed, int& wind_direction);
-
+void readSensorData(float& temperature, float& humidity, float& pressure);
+void readWindData(int& wind_direction, float& wind_speed);
 /**
  * @brief Print sensor data
  *
@@ -137,5 +147,7 @@ void disconnectFromWiFi();
  * @brief Print WiFi status
  */
 void printWiFiStatus();
+
+void resetFlags();
 
 #endif // MAIN_UTILS_H

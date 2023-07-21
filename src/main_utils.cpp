@@ -13,7 +13,7 @@ unsigned long last_wifi_status_time = 0;
 unsigned long last_sensors_reading_time = 0;
 unsigned long last_wind_sample_time = 0;
 const unsigned long serial_print_interval = 60000; // Print sensor data every 1 minute
-const unsigned long wifi_status_interval = 30000; // Print WiFi status every 1 minute
+const unsigned long wifi_status_interval = 30000; 
 
 // Flags to indicate which sensor data to read
 bool sensors_flag = false;
@@ -27,8 +27,6 @@ float pressure = 0;
 float wind_speed = 0;
 int wind_direction = 0;
 
-unsigned long myChannelNumber = 2214506;
-const char* myWriteAPIKey = "WRDZS4RBBRZBSI6E";
 
 /**
  * Reads sensor data from various sensors.
@@ -39,7 +37,7 @@ const char* myWriteAPIKey = "WRDZS4RBBRZBSI6E";
  * @param wind_speed [out] - The variable to store the wind speed reading.
  * @param wind_direction [out] - The variable to store the wind direction reading.
  */
-void readSensorData(float& temperature, float& humidity, float& pressure, float& wind_speed, int& wind_direction) {
+void readSensorData(float& temperature, float& humidity, float& pressure) {
   if (millis() - last_sensors_reading_time >= SENSOR_READING_INTERVAL) {
     // Read temperature and humidity from SHT31 sensor
     temperature = readTemperature();
@@ -50,25 +48,11 @@ void readSensorData(float& temperature, float& humidity, float& pressure, float&
     sensors_flag = true;
   }
 
-  // Read wind speed from ADS1115 analog-to-digital converter
-  int16_t wind_speed_adc_ch_reading = ads.readADC_SingleEnded(WIND_SPEED_SENSOR_ADC_CH);
-  float wind_speed_volts = ads.computeVolts(wind_speed_adc_ch_reading);
-  float temp_wind_speed = sampleWindSpeed(wind_speed_volts, aveWindSpdCalcArr);
+}
 
-  if (wind_speed_flag) {
-    wind_speed = temp_wind_speed;
-    wind_speed_flag = false;
-  }
-
-  // Read wind direction from ADS1115 analog-to-digital converter
-  int16_t wind_dir_adc_ch_reading = ads.readADC_SingleEnded(WIND_DIR_SENSOR_ADC_CH);
-  float wind_dir_volts = ads.computeVolts(wind_dir_adc_ch_reading);
-  int temp_wind_direction = sampleWindDirection(wind_dir_volts, aveWindDirCalcArr);
-
-  if (wind_dir_flag) {
-    wind_direction = temp_wind_direction;
-    wind_dir_flag = false;
-  }
+void readWindData(int& wind_direction, float& wind_speed)
+{
+    readAverageWinds(wind_speed ,wind_direction);
 }
 
 /**
@@ -212,13 +196,13 @@ void reconnectToWiFi() {
  */
 void uploadData() {
   printSensorData(temperature, humidity, pressure, wind_speed, wind_direction);
-  ThingSpeak.setField(4, humidity);
-  ThingSpeak.setField(3, temperature);
-  ThingSpeak.setField(5, pressure);
-  ThingSpeak.setField(1, wind_speed);
-  ThingSpeak.setField(2, wind_direction);
-  ThingSpeak.setField(6, cal_vpd(temperature, humidity));
-  int response = ThingSpeak.writeFields(myChannelNumber, myWriteAPIKey);
+  ThingSpeak.setField(HUMIDITY_CH, humidity);
+  ThingSpeak.setField(TEMP_CH, temperature);
+  ThingSpeak.setField(PRESSURE_CH, pressure);
+  ThingSpeak.setField(WIND_SPD_CH, wind_speed);
+  ThingSpeak.setField(WIND_DIR_CH, wind_direction);
+  ThingSpeak.setField(VPD_CH, cal_vpd(temperature, humidity));
+  int response = ThingSpeak.writeFields(TS_CH, TS_API_KEY);
   if (response == 200) {
     Serial.println("Data uploaded to ThingSpeak server successfully.");
   } else {
@@ -245,4 +229,11 @@ void printWiFiStatus() {
       Serial.println("WiFi Status: Not Connected");
     }
   }
+
+void resetFlags()
+{
+  wind_dir_flag = false;
+  wind_speed_flag = false;
+  sensors_flag = false;
+}
 

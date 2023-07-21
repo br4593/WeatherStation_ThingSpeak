@@ -9,13 +9,16 @@ void setup() {
   temperature = readTemperature();
   humidity = readHumidity();
   pressure = readPressure();
+  wind_speed = readWindSpeed();
+  wind_direction = readWindDir();
   uploadData();
 }
 
 void loop() {
-  readSensorData(temperature, humidity, pressure, wind_speed, wind_direction);
+  readSensorData(temperature, humidity, pressure);
+  readWindData(wind_direction ,wind_speed);
 
-  if (sensors_flag || (wind_dir_flag && wind_speed_flag)) {
+  if (sensors_flag && wind_dir_flag && wind_speed_flag) {
     if (!wifi_flag) {
       connectToWiFi();
       if (wifi_flag) {
@@ -26,7 +29,7 @@ void loop() {
       uploadData();
       disconnectFromWiFi();
     }
-    sensors_flag = false;
+    resetFlags();
   }
 
   if (millis() - last_serial_print_time >= serial_print_interval) {

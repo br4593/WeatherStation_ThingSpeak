@@ -222,13 +222,15 @@ void disconnectFromWiFi() {
 }
 
 void printWiFiStatus() {
-    if (WiFi.status() == WL_CONNECTED) {
-      Serial.print("WiFi Status: Connected, Network Name: ");
-      Serial.println(WiFi.SSID());
-    } else {
-      Serial.println("WiFi Status: Not Connected");
-    }
+  if (WiFi.status() == WL_CONNECTED) {
+    Serial.print("WiFi Status: Connected, Network Name: ");
+    Serial.println(WiFi.SSID());
+    Serial.print("IP Address: ");
+    Serial.println(WiFi.localIP());
+  } else {
+    Serial.println("WiFi Status: Not Connected");
   }
+}
 
 void resetFlags()
 {

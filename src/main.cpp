@@ -1,5 +1,6 @@
 #include "main_utils.h"
 
+
 void setup() {
   Serial.begin(115200);
   ThingSpeak.begin(client);
@@ -12,11 +13,13 @@ void setup() {
   wind_speed = readWindSpeed();
   wind_direction = readWindDir();
   uploadData();
+  //ArduinoOTA.begin();
 }
 
 void loop() {
   readSensorData(temperature, humidity, pressure);
   readWindData(wind_direction ,wind_speed);
+  //ArduinoOTA.handle();
 
   if (sensors_flag && wind_dir_flag && wind_speed_flag) {
     if (!wifi_flag) {

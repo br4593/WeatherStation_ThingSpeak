@@ -64,11 +64,11 @@ void stopWindDirectionSampling() {
  * @return The average wind speed over the specified number of samples.
  */
 float sampleWindSpeed(float* arr) {
-  float averageWindSpeed = -1;
 
   if ((millis() - lastSpeedSampleTime >= WIND_SAMPLE_INTERVAL)) {
     float temp_wind_speed = readWindSpeed();
     aveWindSpdCalcArr[currentSpeedSampleIndex] = temp_wind_speed;
+    lastSpeedSampleTime = millis();
 
     // Debug prints for the current sample
     Serial.println("\n\n*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
@@ -88,7 +88,7 @@ float sampleWindSpeed(float* arr) {
       for (int i = 0; i < NUM_OF_WIND_SAMPLES_PER_PERIOD; i++) {
         sumWindSpeeds += aveWindSpdCalcArr[i];
       }
-      averageWindSpeed = sumWindSpeeds / NUM_OF_WIND_SAMPLES_PER_PERIOD;
+      float averageWindSpeed = sumWindSpeeds / NUM_OF_WIND_SAMPLES_PER_PERIOD;
 
       // Debug prints for the average wind speed over the specified period
       Serial.println("\n\n*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
@@ -102,12 +102,12 @@ float sampleWindSpeed(float* arr) {
 
       resetArrayToZero(arr, NUM_OF_WIND_SAMPLES_PER_PERIOD);
       wind_speed_flag = true;
+      return averageWindSpeed;
     }
-
-    lastSpeedSampleTime = millis();
   }
 
-  return averageWindSpeed;
+  // If there's no new sample yet, return the default value (-1)
+  return wind_speed;
 }
 
 /**
@@ -119,11 +119,11 @@ float sampleWindSpeed(float* arr) {
  * @return The average wind direction over the specified number of samples in degrees.
  */
 int sampleWindDirection(float* arr) {
-  int averageWindDirection = -1;
 
   if ((millis() - lastDirectionSampleTime >= WIND_SAMPLE_INTERVAL)) {
     float temp_wind_dir = readWindDir();
     aveWindDirCalcArr[currentDirectionSampleIndex] = temp_wind_dir;
+        lastDirectionSampleTime = millis();
 
     // Debug prints for the current sample
     Serial.println("\n\n*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
@@ -133,9 +133,9 @@ int sampleWindDirection(float* arr) {
     Serial.print("Current Wind Direction: ");
     Serial.println(temp_wind_dir);
     Serial.println("\n\n*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
+    currentDirectionSampleIndex++; // Move this line here to update index only after the sample is taken
   }
 
-  currentDirectionSampleIndex++;
   if (currentDirectionSampleIndex >= NUM_OF_WIND_SAMPLES_PER_PERIOD) {
     currentDirectionSampleIndex = 0;
 
@@ -144,7 +144,7 @@ int sampleWindDirection(float* arr) {
       sumWindDirection += aveWindDirCalcArr[i];
     }
 
-    averageWindDirection = sumWindDirection / NUM_OF_WIND_SAMPLES_PER_PERIOD;
+    int averageWindDirection = sumWindDirection / NUM_OF_WIND_SAMPLES_PER_PERIOD;
 
     // Debug prints for the average wind direction over the specified period
     Serial.println("\n\n*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
@@ -155,14 +155,15 @@ int sampleWindDirection(float* arr) {
     Serial.println(averageWindDirection);
     Serial.println("\n\n*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
 
-    resetArrayToZero(arr, NUM_OF_WIND_SAMPLES_PER_PERIOD);
+    resetArrayToZero(aveWindDirCalcArr, NUM_OF_WIND_SAMPLES_PER_PERIOD); // Reset the array, not 'arr'
     wind_dir_flag = true;
+
+    return averageWindDirection;
   }
 
-  lastDirectionSampleTime = millis();
-
-  return averageWindDirection;
+  return wind_direction;
 }
+
 
 
 /**
@@ -238,14 +239,35 @@ void readAverageWinds(float& wind_speed, int& wind_direction)
 
 int readWindDir()
 {
+  Serial.println("Debugging readWindDir Function");
+
+  // Read ADC channel for wind direction sensor
   int16_t wind_dir_adc_ch_reading = ads.readADC_SingleEnded(WIND_DIR_SENSOR_ADC_CH);
+
+  // Convert ADC reading to voltage
   float wind_dir_volts = ads.computeVolts(wind_dir_adc_ch_reading);
+
+  Serial.print("Current volts is: ");
+  Serial.println(wind_dir_volts);
+
+  // Variable to store the wind direction
   int temp_wind_dir = -1;
 
+  // Find the corresponding wind direction based on voltage
   for (int i = 0; i < sizeof(directions) / sizeof(directions[0]); i++) {
     if (wind_dir_volts >= directions[i].voltageMin && wind_dir_volts < directions[i].voltageMax) {
+      Serial.print("Found a direction: ");
+      Serial.println(directions[i].name);
       temp_wind_dir = directions[i].number;
+      break; // Exit the loop once a direction is found
     }
+  }
+
+  // Handle the case when no direction is found
+  if (temp_wind_dir == -1) {
+    Serial.println("Unknown wind direction.");
+    // You can either return a default direction or an error code here
+    // Example: return 99; or return an enum representing "unknown direction"
   }
 
   return temp_wind_dir;

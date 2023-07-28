@@ -12,6 +12,7 @@
 #include "time_utils.h"
 #include <WiFi.h>
 #include "ThingSpeak.h"
+//#include <ArduinoOTA.h>
 
 #define WIND_SPEED_SENSOR_ADC_CH 1
 #define WIND_DIR_SENSOR_ADC_CH 3

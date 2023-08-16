@@ -19,12 +19,12 @@
 #define SENSOR_READING_INTERVAL (15 * 60 * 1000) // 15 minutes in milliseconds
 #define WIND_READING_INTERVAL (60 * 1000) // 1 minute in milliseconds
 
-#define NETWORK "rodoy"
-#define PASSWORD "0544543538"
+#define NETWORK ""
+#define PASSWORD ""
 
 //ThingSpeak definitions
-#define TS_CH 2209504
-#define TS_API_KEY "OF6CVEMHFWTZXMYO"
+#define TS_CH 00000
+#define TS_API_KEY ""
 #define HUMIDITY_CH 2
 #define TEMP_CH 1
 #define PRESSURE_CH 3

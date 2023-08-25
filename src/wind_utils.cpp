@@ -1,8 +1,19 @@
 #include "wind_utils.h"
 #include <Arduino.h>
 
-float aveWindSpdCalcArr[NUM_OF_WIND_SAMPLES_PER_PERIOD];
-float aveWindDirCalcArr[NUM_OF_WIND_SAMPLES_PER_PERIOD];
+const int ONE_MINUTE_IN_SECONDS = 60;
+int NUM_OF_SAMPLES_PER_MINUTE = 4;
+int WIND_AVERAGE_PERIOD_IN_MINUTES = 1;
+int NUM_OF_WIND_SAMPLES_PER_PERIOD = NUM_OF_SAMPLES_PER_MINUTE * WIND_AVERAGE_PERIOD_IN_MINUTES;
+unsigned long WIND_SAMPLE_INTERVAL = (ONE_MINUTE_IN_SECONDS / NUM_OF_SAMPLES_PER_MINUTE) * 1000;
+
+
+const int MAX_NUM_OF_SAMPLES_PER_MINUTE = 10;
+const int MAX_WIND_AVERAGE_PERIOD_IN_MINUTES = 60;
+const int MAX_NUM_OF_WIND_SAMPLES_PER_PERIOD = MAX_NUM_OF_SAMPLES_PER_MINUTE * MAX_WIND_AVERAGE_PERIOD_IN_MINUTES;
+
+float aveWindSpdCalcArr[MAX_NUM_OF_WIND_SAMPLES_PER_PERIOD];
+float aveWindDirCalcArr[MAX_NUM_OF_WIND_SAMPLES_PER_PERIOD];
 int currentSpeedSampleIndex = 0;
 int currentDirectionSampleIndex = 0;
 unsigned long lastSpeedSampleTime = 0;
@@ -74,7 +85,9 @@ float sampleWindSpeed(float* arr) {
     Serial.println("\n\n*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
     Serial.println("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*\n\n");
     Serial.print("Sample Index (Speed): ");
-    Serial.println(currentSpeedSampleIndex);
+    Serial.println(currentSpeedSampleIndex + 1);
+    Serial.print(" Out of: ");
+    Serial.println(NUM_OF_WIND_SAMPLES_PER_PERIOD);
     Serial.print("Current Wind Speed Sample: ");
     Serial.print(temp_wind_speed);
     Serial.println(" km/h");
@@ -129,7 +142,9 @@ int sampleWindDirection(float* arr) {
     Serial.println("\n\n*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
     Serial.println("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*\n\n");
     Serial.print("Sample Index (Direction): ");
-    Serial.println(currentDirectionSampleIndex);
+    Serial.println(currentDirectionSampleIndex + 1);
+    Serial.print(" Out of: ");
+    Serial.println(NUM_OF_WIND_SAMPLES_PER_PERIOD);
     Serial.print("Current Wind Direction: ");
     Serial.println(temp_wind_dir);
     Serial.println("\n\n*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");

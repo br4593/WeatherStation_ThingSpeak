@@ -2,17 +2,32 @@
 
 
 void setup() {
+    statusLed();
   Serial.begin(115200);
   ThingSpeak.begin(client);
-  connectToWiFi(); // Connect to WiFi network
+  pinMode(LED_PIN, OUTPUT);
+  addNetwork("rodoy","0544543538");
+  addNetwork("BeSpot592F_2.4","9301592F");
+  addMultiWifi(networks,numNetworks);
+  scanWifiNetworks();
+  connectToWifi(); // Connect to WiFi network
   setI2C();
+
   initSensors();
   temperature = readTemperature();
   humidity = readHumidity();
   pressure = readPressure();
   wind_speed = readWindSpeed();
   wind_direction = readWindDir();
+  startWebServer();
+  setupTime();
+  sensors_flag = true;
+  wind_dir_flag = true;
+  wind_speed_flag = true;
+
+  delay(5000);
   uploadData();
+
   //ArduinoOTA.begin();
 }
 
@@ -20,10 +35,16 @@ void loop() {
   readSensorData(temperature, humidity, pressure);
   readWindData(wind_direction ,wind_speed);
   //ArduinoOTA.handle();
+  statusLed();
 
-  if (sensors_flag && wind_dir_flag && wind_speed_flag) {
-    if (!wifi_flag) {
-      connectToWiFi();
+
+if (WiFi.status() != WL_CONNECTED)
+{
+  connectToWifi();
+}
+   uploadData();
+    /*if (!wifi_flag) {
+      connectToWifi();
       if (wifi_flag) {
         uploadData();
         disconnectFromWiFi();
@@ -31,9 +52,9 @@ void loop() {
     } else {
       uploadData();
       disconnectFromWiFi();
-    }
-    resetFlags();
-  }
+    }*/
+
+  
 
   if (millis() - last_serial_print_time >= serial_print_interval) {
     last_serial_print_time = millis();

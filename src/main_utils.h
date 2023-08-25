@@ -3,7 +3,6 @@
 
 #include <Arduino.h>
 #include <Wire.h>
-#include <WiFi.h>
 #include <Adafruit_Sensor.h>
 #include "sht_utils.h"
 #include "bme_utils.h"
@@ -11,20 +10,20 @@
 #include "wind_utils.h"
 #include "time_utils.h"
 #include <WiFi.h>
+#include <WiFiMulti.h>
+#include <AsyncTCP.h>
+#include <ESPAsyncWebServer.h>
 #include "ThingSpeak.h"
 //#include <ArduinoOTA.h>
 
 #define WIND_SPEED_SENSOR_ADC_CH 1
 #define WIND_DIR_SENSOR_ADC_CH 3
-#define SENSOR_READING_INTERVAL (15 * 60 * 1000) // 15 minutes in milliseconds
-#define WIND_READING_INTERVAL (60 * 1000) // 1 minute in milliseconds
 
-#define NETWORK ""
-#define PASSWORD ""
+
 
 //ThingSpeak definitions
-#define TS_CH 00000
-#define TS_API_KEY ""
+#define TS_CH 2209504
+#define TS_API_KEY "OF6CVEMHFWTZXMYO"
 #define HUMIDITY_CH 2
 #define TEMP_CH 1
 #define PRESSURE_CH 3
@@ -51,7 +50,12 @@ extern unsigned long last_wifi_status_time;
 extern const unsigned long serial_print_interval;
 extern const unsigned long wifi_status_interval;
 
+extern const unsigned int MINIMUM_UPLOAD_INTERVAL;
+
 extern WiFiClient client;
+extern WiFiMulti wifiMulti;
+extern const uint32_t connectTimeoutMs;
+extern AsyncWebServer server;
 
 extern float temperature;
 extern float humidity;
@@ -70,6 +74,19 @@ struct ErrorInfo {
   bool sht31;   ///< SHT31 error flag
   bool bme280;  ///< BME280 error flag
 };
+
+struct WiFiNetwork {
+  
+  const char* ssid;
+  const char *password;
+};
+
+extern WiFiNetwork *networks;
+extern int numNetworks;
+
+extern const int LED_PIN;
+extern const unsigned long BLINK_INTERVAL;
+extern unsigned long previousBlinkMillis;
 
 /**
  * @brief Read sensor data
@@ -124,10 +141,9 @@ void printError(const ErrorInfo& errorInfo);
  */
 float cal_vpd(float t, float h);
 
-/**
- * @brief Connect to the WiFi network
- */
-void connectToWiFi();
+
+void connectToWifi();
+
 
 /**
  * @brief Reconnect to the WiFi network
@@ -150,5 +166,14 @@ void disconnectFromWiFi();
 void printWiFiStatus();
 
 void resetFlags();
+
+void addMultiWifi(WiFiNetwork networks[], int numOfNetworks);
+void scanWifiNetworks();
+
+void statusLed();
+void startWebServer();
+void refreshWebServer(AsyncWebServerRequest *request);
+
+void addNetwork(const char* ssid, const char* password);
 
 #endif // MAIN_UTILS_H

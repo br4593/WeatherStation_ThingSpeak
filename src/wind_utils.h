@@ -8,17 +8,15 @@
 #define SPEED_MAX 30
 
 // Number of wind speed samples to store
-const int ONE_MINUTE_IN_SECONDS = 60;
-const int NUM_OF_SAMPLES_PER_MINUTE = 3;
-const int WIND_AVERAGE_PERIOD_IN_MINUTES = 15;
-const int NUM_OF_WIND_SAMPLES_PER_PERIOD = NUM_OF_SAMPLES_PER_MINUTE * WIND_AVERAGE_PERIOD_IN_MINUTES;
+extern const int ONE_MINUTE_IN_SECONDS;
+extern int NUM_OF_SAMPLES_PER_MINUTE;
+extern int WIND_AVERAGE_PERIOD_IN_MINUTES;
+extern int NUM_OF_WIND_SAMPLES_PER_PERIOD;
 
 // Time interval between wind speed samples in milliseconds
-const unsigned long WIND_SAMPLE_INTERVAL = (ONE_MINUTE_IN_SECONDS / NUM_OF_SAMPLES_PER_MINUTE) * 1000;
+extern unsigned long WIND_SAMPLE_INTERVAL;
 
-// Array to store wind speed and direction samples
-extern float aveWindSpdCalcArr[NUM_OF_WIND_SAMPLES_PER_PERIOD];
-extern float aveWindDirCalcArr[NUM_OF_WIND_SAMPLES_PER_PERIOD];
+
 
 // Structure to represent wind direction
 struct WindDirection {

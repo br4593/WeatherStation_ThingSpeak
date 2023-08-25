@@ -8,28 +8,31 @@ const long  gmtOffset_sec = 2 * 3600;            // GMT offset for Israel (2 hou
 
 void printLocalTime()
 {
-  struct tm timeinfo;
-  if (!getLocalTime(&timeinfo)) {
-    // Failed to obtain time
-    Serial.println("Failed to obtain time");
-    return;
-  }
+    struct tm timeinfo;
+    if (!getLocalTime(&timeinfo))
+    {
+        // Failed to obtain time
+        Serial.println("Failed to obtain time");
+        return;
+    }
 
-  // Adjust GMT offset and DST if necessary
-  time_t adjustedTime = mktime(&timeinfo) + gmtOffset_sec;
-  if (timeinfo.tm_isdst) {
-    adjustedTime -= 3600;  // Subtract an hour during DST
-  }
+    // Convert time to local time zone considering GMT offset and DST
+    time_t adjustedTime = mktime(&timeinfo);
+    if (timeinfo.tm_isdst)
+    {
+        adjustedTime -= 3600; // Subtract an hour during DST
+    }
 
-  // Convert adjusted time to a struct tm
-  struct tm *adjustedTimeinfo = gmtime(&adjustedTime);
+    // Convert adjusted time to a struct tm
+    struct tm *adjustedTimeinfo = localtime(&adjustedTime);
 
-  // Format the time string
-  char timeString[50];
-  strftime(timeString, sizeof(timeString), "%A, %B %d %Y %H:%M:%S", adjustedTimeinfo);
+    // Format the time string
+    char timeString[50];
+    strftime(timeString, sizeof(timeString), "%A, %B %d %Y %H:%M:%S", adjustedTimeinfo);
 
-  // Print the local time
-  Serial.println(timeString);
+    // Print the local time
+    Serial.println(timeString);
+    Serial.println("--------------------");
 }
 
 

@@ -17,8 +17,8 @@
 
 
 //ThingSpeak definitions
-#define TS_CH 2209504
-#define TS_API_KEY "OF6CVEMHFWTZXMYO"
+#define TS_CH 00000000
+#define TS_API_KEY "*******"
 #define HUMIDITY_CH 2
 #define TEMP_CH 1
 #define PRESSURE_CH 3

@@ -19,6 +19,10 @@ int currentDirectionSampleIndex = 0;
 unsigned long lastSpeedSampleTime = 0;
 unsigned long lastDirectionSampleTime = 0;
 
+
+int wind_speed_sensor_adc_channel = 1;
+int wind_dir_sensor_adc_channel = 3;
+
 WindDirection directions[] = {
   {0, "North Wind", 0.0, 0.7143},
   {45, "Northeasterly Wind", 0.7143, 1.4286},
@@ -29,42 +33,6 @@ WindDirection directions[] = {
   {270, "West Wind", 4.2857, 5.0},
   {315, "Northwest Wind", 0.0, 5.0}
 };
-
-/**
- * Initializes the wind speed sampling.
- * This function resets the wind speed calculation array and sets the initial sample index and time.
- */
-void initWindSpeedSampling() {
-  resetArrayToZero(aveWindSpdCalcArr, NUM_OF_WIND_SAMPLES_PER_PERIOD);
-  currentSpeedSampleIndex = 0;
-  lastSpeedSampleTime = millis();
-}
-
-/**
- * Stops the wind speed sampling.
- * This function can be used for cleanup or additional actions when stopping wind speed sampling.
- */
-void stopWindSpeedSampling() {
-  // Perform any necessary cleanup or additional actions when stopping wind speed sampling
-}
-
-/**
- * Initializes the wind direction sampling.
- * This function resets the wind direction calculation array and sets the initial sample index and time.
- */
-void initWindDirectionSampling() {
-  resetArrayToZero(aveWindDirCalcArr, NUM_OF_WIND_SAMPLES_PER_PERIOD);
-  currentDirectionSampleIndex = 0;
-  lastDirectionSampleTime = millis();
-}
-
-/**
- * Stops the wind direction sampling.
- * This function can be used for cleanup or additional actions when stopping wind direction sampling.
- */
-void stopWindDirectionSampling() {
-  // Perform any necessary cleanup or additional actions when stopping wind direction sampling
-}
 
 /**
  * Samples the wind speed.
@@ -231,7 +199,7 @@ void resetArrayToZero(float* arr, int size) {
 float readWindSpeed()
 {
   // Read wind speed from ADS1115 analog-to-digital converter
-  int16_t wind_speed_adc_ch_reading = ads.readADC_SingleEnded(WIND_SPEED_SENSOR_ADC_CH);
+  int16_t wind_speed_adc_ch_reading = ads.readADC_SingleEnded(wind_speed_sensor_adc_channel);
   float wind_speed_volts = ads.computeVolts(wind_speed_adc_ch_reading);
   float temp_wind_speed = mpsToKmph(computeSpeed(wind_speed_volts));
 
@@ -257,7 +225,7 @@ int readWindDir()
   Serial.println("Debugging readWindDir Function");
 
   // Read ADC channel for wind direction sensor
-  int16_t wind_dir_adc_ch_reading = ads.readADC_SingleEnded(WIND_DIR_SENSOR_ADC_CH);
+  int16_t wind_dir_adc_ch_reading = ads.readADC_SingleEnded(wind_speed_sensor_adc_channel);
 
   // Convert ADC reading to voltage
   float wind_dir_volts = ads.computeVolts(wind_dir_adc_ch_reading);

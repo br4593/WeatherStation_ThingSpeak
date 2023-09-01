@@ -16,6 +16,8 @@ extern int NUM_OF_WIND_SAMPLES_PER_PERIOD;
 // Time interval between wind speed samples in milliseconds
 extern unsigned long WIND_SAMPLE_INTERVAL;
 
+extern int wind_speed_sensor_adc_channel;
+extern int wind_dir_sensor_adc_channel;
 
 
 // Structure to represent wind direction
@@ -27,10 +29,6 @@ struct WindDirection {
 };
 
 // Function prototypes
-void initWindSpeedSampling();
-void stopWindSpeedSampling();
-void initWindDirectionSampling();
-void stopWindDirectionSampling();
 float sampleWindSpeed(float* arr);
 int sampleWindDirection(float* arr);
 void readAverageWinds( float& wind_speed, int& wind_direction);
@@ -40,5 +38,6 @@ float computeSpeed(float voltage);
 float mpsToKmph(float speed);
 void resetArrayToZero(float* arr, int size);
 String getWindDirectionString(int directionNumber);
+void setupWindSensorChannels(int windSpeedADCCh, int windDirADCCh);
 
 #endif

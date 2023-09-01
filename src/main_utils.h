@@ -9,16 +9,11 @@
 #include "ads_utils.h"
 #include "wind_utils.h"
 #include "time_utils.h"
-#include <WiFi.h>
-#include <WiFiMulti.h>
-#include <AsyncTCP.h>
-#include <ESPAsyncWebServer.h>
+#include "main_utils.h"
+#include "wifi_utils.h"
+
+
 #include "ThingSpeak.h"
-//#include <ArduinoOTA.h>
-
-#define WIND_SPEED_SENSOR_ADC_CH 1
-#define WIND_DIR_SENSOR_ADC_CH 3
-
 
 
 //ThingSpeak definitions
@@ -52,10 +47,8 @@ extern const unsigned long wifi_status_interval;
 
 extern const unsigned int MINIMUM_UPLOAD_INTERVAL;
 
-extern WiFiClient client;
-extern WiFiMulti wifiMulti;
+
 extern const uint32_t connectTimeoutMs;
-extern AsyncWebServer server;
 
 extern float temperature;
 extern float humidity;
@@ -65,6 +58,7 @@ extern int wind_direction;
 
 extern unsigned long myChannelNumber;
 extern const char* myWriteAPIKey;
+
 
 /**
  * @brief Error information structure
@@ -142,38 +136,24 @@ void printError(const ErrorInfo& errorInfo);
 float cal_vpd(float t, float h);
 
 
-void connectToWifi();
-
-
 /**
  * @brief Reconnect to the WiFi network
  */
-void reconnectToWiFi();
 
-/**
- * @brief Upload sensor data to ThingSpeak
- */
 void uploadData();
 
-/**
- * @brief Disconnect from the WiFi network
- */
-void disconnectFromWiFi();
 
-/**
- * @brief Print WiFi status
- */
-void printWiFiStatus();
 
 void resetFlags();
 
 void addMultiWifi(WiFiNetwork networks[], int numOfNetworks);
 void scanWifiNetworks();
 
-void statusLed();
+
 void startWebServer();
-void refreshWebServer(AsyncWebServerRequest *request);
+//void refreshWebServer(AsyncWebServerRequest *request);
 
 void addNetwork(const char* ssid, const char* password);
+
 
 #endif // MAIN_UTILS_H

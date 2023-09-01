@@ -2,15 +2,26 @@
 
 
 void setup() {
-    statusLed();
   Serial.begin(115200);
+     wifiManager.setAPCallback(configModeCallback);
   ThingSpeak.begin(client);
-  pinMode(LED_PIN, OUTPUT);
-  addNetwork("rodoy","0544543538");
-  addNetwork("BeSpot592F_2.4","9301592F");
-  addMultiWifi(networks,numNetworks);
-  scanWifiNetworks();
-  connectToWifi(); // Connect to WiFi network
+    pinMode(LED_PIN, OUTPUT);
+      ticker.attach(0.6, tick);
+   bool res;
+
+  if (!wifiManager.autoConnect("WeatherStation","11223344")) {
+    Serial.println("failed to connect and hit timeout");
+    //reset and try again, or maybe put it to deep sleep
+    ESP.restart();
+    delay(1000);
+  }
+
+  //if you get here you have connected to the WiFi
+  Serial.println("connected...yeey :)");
+  ticker.detach();
+  //keep LED on
+  digitalWrite(BUILTIN_LED, HIGH);
+
   setI2C();
 
   initSensors();
@@ -19,7 +30,7 @@ void setup() {
   pressure = readPressure();
   wind_speed = readWindSpeed();
   wind_direction = readWindDir();
-  startWebServer();
+startWebServer();
   setupTime();
   sensors_flag = true;
   wind_dir_flag = true;
@@ -28,33 +39,18 @@ void setup() {
   delay(5000);
   uploadData();
 
-  //ArduinoOTA.begin();
 }
 
 void loop() {
+
+  if (WiFi.status() != WL_CONNECTED) {
+    Serial.println("Wifi not connected");
+    WiFi.begin();
+  }
   readSensorData(temperature, humidity, pressure);
   readWindData(wind_direction ,wind_speed);
-  //ArduinoOTA.handle();
-  statusLed();
+  uploadData();
 
-
-if (WiFi.status() != WL_CONNECTED)
-{
-  connectToWifi();
-}
-   uploadData();
-    /*if (!wifi_flag) {
-      connectToWifi();
-      if (wifi_flag) {
-        uploadData();
-        disconnectFromWiFi();
-      }
-    } else {
-      uploadData();
-      disconnectFromWiFi();
-    }*/
-
-  
 
   if (millis() - last_serial_print_time >= serial_print_interval) {
     last_serial_print_time = millis();

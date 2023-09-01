@@ -5,8 +5,6 @@ bool ads1115_error = false;
 bool sht31_error = false;
 bool bme280_error = false;
 
-WiFiClient client;
-WiFiMulti wifiMulti;
 
 // Variables to track the last reading time
 unsigned long last_serial_print_time = 0;
@@ -49,7 +47,7 @@ void addNetwork(const char* ssid, const char* password) {
         Serial.println("Memory allocation failed for adding a new network.");
     }
 }
-AsyncWebServer server(80);
+
 const uint32_t connectTimeoutMs = 10000;
 
 
@@ -179,7 +177,7 @@ float cal_vpd(float t, float h) {
   return vpd;
 }
 
-void addMultiWifi(WiFiNetwork networks[], int numOfNetworks)
+/*void addMultiWifi(WiFiNetwork networks[], int numOfNetworks)
 {
   int i = 0;
 
@@ -187,10 +185,10 @@ void addMultiWifi(WiFiNetwork networks[], int numOfNetworks)
   {
     wifiMulti.addAP(networks[i].ssid,networks[i].password);
   }
-}
+}*/
 
 
-void connectToWifi()
+/*void connectToWifi()
 {
   WiFi.mode(WIFI_STA);
     Serial.println("Connecting Wifi...");
@@ -198,55 +196,14 @@ void connectToWifi()
 printWiFiStatus();
 wifi_flag = true;
   }
-}
-
-
-
-void scanWifiNetworks()
-{
- int n = WiFi.scanNetworks();
-  Serial.println("scan done");
-  if (n == 0) {
-      Serial.println("no networks found");
-  } 
-  else {
-    Serial.print(n);
-    Serial.println(" networks found");
-    for (int i = 0; i < n; ++i) {
-      // Print SSID and RSSI for each network found
-      Serial.print(i + 1);
-      Serial.print(": ");
-      Serial.print(WiFi.SSID(i));
-      Serial.print(" (");
-      Serial.print(WiFi.RSSI(i));
-      Serial.print(")");
-      Serial.println((WiFi.encryptionType(i) == WIFI_AUTH_OPEN)?" ":"*");
-      delay(10);
-    }
-  }
-}
+}*/
 
 
 
 
-/**
- * Reconnects to the WiFi network.
- */
-void reconnectToWiFi() {
-  Serial.println("Reconnecting to WiFi...");
-  WiFi.disconnect(); // Disconnect from WiFi
-  WiFi.reconnect(); // Reconnect to WiFi
-  if (WiFi.status() != WL_CONNECTED) {
-    wifi_flag = false; // Set the flag to false if WiFi reconnection fails
-    Serial.println("WiFi not connected!");
-    delay(1000);
-  } else {
-    wifi_flag = true;
-    Serial.println("WiFi reconnected");
-    Serial.print("IP address: ");
-    Serial.println(WiFi.localIP());
-  }
-}
+
+
+
 
 /**
  * Uploads sensor data to ThingSpeak.
@@ -303,28 +260,6 @@ void uploadData() {
 }
 
 
-/**
- * Disconnects from the WiFi network.
- */
-void disconnectFromWiFi() {
-  if(WiFi.disconnect())
-  {
-  wifi_flag = false;
-  Serial.println("WiFi disconnected");
-  }
-
-}
-
-void printWiFiStatus() {
-  if (WiFi.status() == WL_CONNECTED) {
-    Serial.print("WiFi Status: Connected, Network Name: ");
-    Serial.println(WiFi.SSID());
-    Serial.print("IP Address: ");
-    Serial.println(WiFi.localIP());
-  } else {
-    Serial.println("WiFi Status: Not Connected");
-  }
-}
 
 void resetFlags()
 {
@@ -333,21 +268,7 @@ void resetFlags()
   sensors_flag = false;
 }
 
-void statusLed()
-{
-    unsigned long currentMillis = millis();
 
-  if (WiFi.status() != WL_CONNECTED) {
-    // WiFi is not connected, blink the LED
-    if (currentMillis - previousBlinkMillis >= BLINK_INTERVAL) {
-      previousBlinkMillis = currentMillis;
-      digitalWrite(LED_PIN, !digitalRead(LED_PIN)); // Toggle LED state
-    }
-  } else {
-    // WiFi is connected, keep the LED steadily on
-    digitalWrite(LED_PIN, HIGH);
-  }
-}
 
 
 
@@ -486,5 +407,4 @@ server.on("/settings", HTTP_POST, [](AsyncWebServerRequest *request) {
     // Start the web server
     server.begin();
 }
-
 

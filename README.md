@@ -11,7 +11,7 @@ This repository contains the code and instructions to set up an ESP32-S2 mini we
 - Pressure readings via BME280 sensor
 - Humidity and temperature readings using the SHT31 sensor
 - LED indicators for status (Green LED for normal operation, Red LED for alerts)
-- MOSFET control for efficient sensor interfacing
+- MOSFET control for dimming the LEDs
 - Voltage regulation with step-down converters (12V to 5.5V and 12V to 3.3V)
 - Logic level conversion for sensor communication
 - ADS1115 for precise wind data acquisition

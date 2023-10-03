@@ -29,8 +29,11 @@ struct WindDirection {
 };
 
 // Function prototypes
-float sampleWindSpeed(float* arr);
-int sampleWindDirection(float* arr);
+//float sampleWindSpeed(float* arr);
+//int sampleWindDirection(float* arr);
+
+float aveWindSpeed();
+float aveWindDir();
 void readAverageWinds( float& wind_speed, int& wind_direction);
 int readWindDir();
 float readWindSpeed();

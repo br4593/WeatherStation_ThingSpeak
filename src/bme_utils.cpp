@@ -1,7 +1,8 @@
 #include "bme_utils.h"
 
 Adafruit_BME280 bme;
-float const LOCAL_ALTITUDE = 63; // Adjust this value to your local altitude
+const float LOCAL_ALTITUDE = 63; // Adjust this value to your local altitude
+const int BME_ADDRESS = 0x76;
 
 /**
  * Set up the BME280 sensor module.
@@ -9,9 +10,9 @@ float const LOCAL_ALTITUDE = 63; // Adjust this value to your local altitude
  * If the sensor is not found, it sets the bme280_error flag to true.
  */
 void setupBME280() {
-  if (!bme.begin(0x76)) {
+  if (!bme.begin(BME_ADDRESS)) {
     Serial.println("Could not find a valid BME280 sensor. Please check the wiring!");
-    bme280_error = true;
+    errorInfo.bme280 = true;
   }
 }
 

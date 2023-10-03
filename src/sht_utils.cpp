@@ -2,15 +2,17 @@
 
 Adafruit_SHT31 sht;
 
+const int SHT_ADDRESS = 0x44;
+
 /**
  * Set up the SHT31 sensor module.
  * This function initializes the SHT31 sensor and checks for its presence.
  * If the sensor is not found, it sets the sht31_error flag to true.
  */
 void setupSHT31() {
-  if (!sht.begin(0x44)) {
+  if (!sht.begin(SHT_ADDRESS)) {
     Serial.println("Couldn't find SHT31 sensor! Please check the wiring.");
-    sht31_error = true;
+    errorInfo.sht31 = true;
   }
   
   // Read and print the sensor status for debugging purposes

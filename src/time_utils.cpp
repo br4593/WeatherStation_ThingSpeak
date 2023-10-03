@@ -1,6 +1,6 @@
 #include "time_utils.h"
 
-#include <WiFi.h>
+
 #include <time.h>
 
 const char* ntpServer = "pool.ntp.org";

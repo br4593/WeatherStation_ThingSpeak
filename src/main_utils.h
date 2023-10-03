@@ -11,76 +11,84 @@
 #include "time_utils.h"
 #include "main_utils.h"
 #include "wifi_utils.h"
-
-
 #include "ThingSpeak.h"
 
 
 //ThingSpeak definitions
-#define TS_CH 00000000
-#define TS_API_KEY "*******"
+#define TS_CH 2209504
+#define TS_API_KEY "OF6CVEMHFWTZXMYO"
 #define HUMIDITY_CH 2
 #define TEMP_CH 1
 #define PRESSURE_CH 3
 #define WIND_SPD_CH 4
 #define WIND_DIR_CH 5
 #define VPD_CH 6
+extern unsigned long myChannelNumber;
+extern const char* myWriteAPIKey;
+
 
 // Pin Definitions
 #define SDA 33
 #define SCL 35
 #define ONBOARD_LED 15
 
-extern boolean wifi_flag;
-extern boolean sensors_flag;
-extern boolean wind_speed_flag;
-extern boolean wind_dir_flag;
+
+extern boolean sensors_flag;//flag to indicate if sensor data needs to be uploaded  
+extern boolean wind_speed_flag;//flag to indicate if wind speed data needs to be uploaded
+extern boolean wind_dir_flag;//flag to indicate if wind direction data needs to be uploaded 
+
+
 extern unsigned long last_wind_sample_time;
 extern unsigned long last_sensors_reading_time;
-extern bool ads1115_error;
-extern bool sht31_error;
-extern bool bme280_error;
 extern unsigned long last_serial_print_time;
 extern unsigned long last_wifi_status_time;
 extern const unsigned long serial_print_interval;
 extern const unsigned long wifi_status_interval;
 
 extern const unsigned int MINIMUM_UPLOAD_INTERVAL;
-
-
 extern const uint32_t connectTimeoutMs;
 
+//global sensors variables
 extern float temperature;
 extern float humidity;
 extern float pressure;
 extern float wind_speed;
 extern int wind_direction;
+extern float dir_voltage_debug;
+extern float spd_voltage_debug;
 
-extern unsigned long myChannelNumber;
-extern const char* myWriteAPIKey;
+extern int error_debug;
+
+
+//ticker definitions
+extern Ticker ticker;
+extern Ticker greenLedTicker;
+extern Ticker redLedTicker;
+
+//leds definitions
+extern const int greenLedBrightness;
+extern bool greenLedState;
+extern const int redLedBrightness;
+extern bool redLedState ;
 
 
 /**
  * @brief Error information structure
  */
 struct ErrorInfo {
-  bool ads1115; ///< ADS1115 error flag
-  bool sht31;   ///< SHT31 error flag
-  bool bme280;  ///< BME280 error flag
+    bool ads1115; ///< ADS1115 error flag
+    bool sht31;   ///< SHT31 error flag
+    bool bme280;  ///< BME280 error flag
 };
 
-struct WiFiNetwork {
-  
-  const char* ssid;
-  const char *password;
-};
-
-extern WiFiNetwork *networks;
-extern int numNetworks;
+extern ErrorInfo errorInfo;
 
 extern const int LED_PIN;
+extern const int GREEN_LED_PIN;
+extern const int RED_LED_PIN;
 extern const unsigned long BLINK_INTERVAL;
 extern unsigned long previousBlinkMillis;
+
 
 /**
  * @brief Read sensor data
@@ -110,11 +118,6 @@ void printSensorData(float temperature, float humidity, float pressure, float wi
 void initSensors();
 
 /**
- * @brief Reset Arduino Cloud variables
- */
-void resetArduinoCloudVariables();
-
-/**
  * @brief Set I2C communication
  */
 void setI2C();
@@ -124,7 +127,7 @@ void setI2C();
  *
  * @param[in] errorInfo - Error information structure
  */
-void printError(const ErrorInfo& errorInfo);
+void printError(struct ErrorInfo& errorInfo);
 
 /**
  * @brief Calculate vapor pressure deficit (VPD)
@@ -144,16 +147,9 @@ void uploadData();
 
 
 
-void resetFlags();
-
-void addMultiWifi(WiFiNetwork networks[], int numOfNetworks);
-void scanWifiNetworks();
+void flashRedLed();
 
 
-void startWebServer();
-//void refreshWebServer(AsyncWebServerRequest *request);
-
-void addNetwork(const char* ssid, const char* password);
-
+bool checkForSensorsError();
 
 #endif // MAIN_UTILS_H

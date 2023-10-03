@@ -2,10 +2,11 @@
 #include <Arduino.h>
 
 const int ONE_MINUTE_IN_SECONDS = 60;
-int NUM_OF_SAMPLES_PER_MINUTE = 4;
+/*int NUM_OF_SAMPLES_PER_MINUTE = 60;
 int WIND_AVERAGE_PERIOD_IN_MINUTES = 1;
 int NUM_OF_WIND_SAMPLES_PER_PERIOD = NUM_OF_SAMPLES_PER_MINUTE * WIND_AVERAGE_PERIOD_IN_MINUTES;
-unsigned long WIND_SAMPLE_INTERVAL = (ONE_MINUTE_IN_SECONDS / NUM_OF_SAMPLES_PER_MINUTE) * 1000;
+//unsigned long WIND_SAMPLE_INTERVAL = (ONE_MINUTE_IN_SECONDS / NUM_OF_SAMPLES_PER_MINUTE) * 1000;
+
 
 
 const int MAX_NUM_OF_SAMPLES_PER_MINUTE = 10;
@@ -16,12 +17,23 @@ float aveWindSpdCalcArr[MAX_NUM_OF_WIND_SAMPLES_PER_PERIOD];
 float aveWindDirCalcArr[MAX_NUM_OF_WIND_SAMPLES_PER_PERIOD];
 int currentSpeedSampleIndex = 0;
 int currentDirectionSampleIndex = 0;
-unsigned long lastSpeedSampleTime = 0;
-unsigned long lastDirectionSampleTime = 0;
+*/
 
 
-int wind_speed_sensor_adc_channel = 1;
-int wind_dir_sensor_adc_channel = 3;
+unsigned long start_of_speed_sample_time = 0;
+unsigned long last_speed_sample_time = 0;
+unsigned long last_direction_sample_time = 0;
+unsigned long start_of_direction_sample_time = 0;
+unsigned long WIND_SAMPLE_INTERVAL = 1000;
+unsigned long wind_average_period_length = 60000;
+float sum_of_wind_speeds = 0.0;
+int num_of_speed_samples = 0;
+float sum_of_wind_directions = 0.0;
+int num_of_direction_samples = 0;
+
+
+int wind_speed_sensor_adc_channel = 0;
+int wind_dir_sensor_adc_channel = 1;
 
 WindDirection directions[] = {
   {0, "North Wind", 0.0, 0.7143},
@@ -34,20 +46,65 @@ WindDirection directions[] = {
   {315, "Northwest Wind", 0.0, 5.0}
 };
 
-/**
- * Samples the wind speed.
- * This function calculates the average wind speed based on the provided voltage and a moving average calculation.
- *
- * @param voltage - The voltage reading from the wind speed sensor.
- * @param arr - The array to store the wind speed samples for the moving average calculation.
- * @return The average wind speed over the specified number of samples.
- */
+
+
+float aveWindSpeed()
+{
+  if (millis() - last_speed_sample_time > WIND_SAMPLE_INTERVAL)
+  {
+    sum_of_wind_speeds += readWindSpeed();
+    num_of_speed_samples++;
+    last_speed_sample_time = millis();
+  }
+
+  if (millis() - start_of_speed_sample_time > wind_average_period_length)
+  {
+    start_of_speed_sample_time = millis();
+    wind_speed_flag = true;
+    // Calculate the average and reset variables
+    float average_speed = num_of_speed_samples > 0 ? sum_of_wind_speeds / num_of_speed_samples : 0.0;
+    sum_of_wind_speeds = 0.0;
+    num_of_speed_samples = 0;
+    return average_speed;
+  }
+
+  return wind_speed; //return default value
+}
+
+
+float aveWindDir()
+{
+  if (millis() - last_direction_sample_time > WIND_SAMPLE_INTERVAL)
+  {
+    sum_of_wind_directions += readWindDir();
+    num_of_direction_samples++;
+    last_direction_sample_time = millis();
+  }
+
+  if (millis() - start_of_direction_sample_time > wind_average_period_length)
+  {
+    start_of_direction_sample_time = millis();
+    wind_dir_flag = true;
+    // Calculate the average and reset variables
+    float average_direction = num_of_direction_samples > 0 ? sum_of_wind_directions / num_of_direction_samples : 0.0;
+    sum_of_wind_directions = 0.0;
+    num_of_direction_samples = 0;
+    return average_direction;
+  }
+
+  return wind_direction; //return default value
+}
+
+
+
+/*
 float sampleWindSpeed(float* arr) {
 
-  if ((millis() - lastSpeedSampleTime >= WIND_SAMPLE_INTERVAL)) {
+  if ((millis() - last_speed_sample_time >= WIND_SAMPLE_INTERVAL)) {
     float temp_wind_speed = readWindSpeed();
     aveWindSpdCalcArr[currentSpeedSampleIndex] = temp_wind_speed;
-    lastSpeedSampleTime = millis();
+    last_speed_sample_time = millis();
+
 
     // Debug prints for the current sample
     Serial.println("\n\n*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
@@ -89,19 +146,12 @@ float sampleWindSpeed(float* arr) {
 
   // If there's no new sample yet, return the default value (-1)
   return wind_speed;
-}
+}*/
 
-/**
- * Samples the wind direction.
- * This function calculates the average wind direction based on the provided voltage and a moving average calculation.
- *
- * @param temp_wind_dir - The instantaneous wind direction in degrees.
- * @param arr - The array to store the wind direction samples for the moving average calculation.
- * @return The average wind direction over the specified number of samples in degrees.
- */
+/*
 int sampleWindDirection(float* arr) {
 
-  if ((millis() - lastDirectionSampleTime >= WIND_SAMPLE_INTERVAL)) {
+  unsigned long lastDirectionSampleTime = 0;
     float temp_wind_dir = readWindDir();
     aveWindDirCalcArr[currentDirectionSampleIndex] = temp_wind_dir;
         lastDirectionSampleTime = millis();
@@ -145,7 +195,7 @@ int sampleWindDirection(float* arr) {
   }
 
   return wind_direction;
-}
+}*/
 
 
 
@@ -208,8 +258,8 @@ float readWindSpeed()
 
 void readAverageWinds(float& wind_speed, int& wind_direction)
 {
-  float temp_ave_wind_speed = sampleWindSpeed(aveWindSpdCalcArr);
-  int temp_ave_wind_dir = sampleWindDirection(aveWindDirCalcArr);
+  float temp_ave_wind_speed = aveWindSpeed();
+  int temp_ave_wind_dir = aveWindDir();
 
   if (wind_speed_flag) {
     wind_speed = temp_ave_wind_speed;
@@ -225,7 +275,7 @@ int readWindDir()
   Serial.println("Debugging readWindDir Function");
 
   // Read ADC channel for wind direction sensor
-  int16_t wind_dir_adc_ch_reading = ads.readADC_SingleEnded(wind_speed_sensor_adc_channel);
+  int16_t wind_dir_adc_ch_reading = ads.readADC_SingleEnded(wind_dir_sensor_adc_channel);
 
   // Convert ADC reading to voltage
   float wind_dir_volts = ads.computeVolts(wind_dir_adc_ch_reading);

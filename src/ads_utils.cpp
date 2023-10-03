@@ -10,6 +10,6 @@ Adafruit_ADS1115 ads;
 void setupADS1115() {
   if (!ads.begin()) {
     Serial.println("Failed to initialize ADS1115.");
-    ads1115_error = true;
+    errorInfo.ads1115 = true;
   }
 }

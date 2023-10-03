@@ -1,17 +1,36 @@
-#include <ESPAsyncWebServer.h>
-#include <ESPAsyncWiFiManager.h>   
+
+//#include <ESPAsyncWiFiManager.h>   
+//extern AsyncWiFiManager wifiManager;
+#define TRIGGER_PIN 4
+
+#include "main_utils.h"
+#include <WiFiManager.h>
+#include <ElegantOTA.h>
 #include <Ticker.h>
 #include <WiFi.h>
 
-extern Ticker ticker;
 
-extern AsyncWiFiManager wifiManager;
 
-extern AsyncWebServer server;
+extern WiFiManager wifiManager;
 extern DNSServer dns;
-
 extern WiFiClient client;
+extern WebServer server;
 
-void configModeCallback (AsyncWiFiManager *myWiFiManager);
-void tick();
+
+
+extern unsigned long ota_progress_millis;
+extern bool portalRunning;
+
+extern bool buttonState; 
+extern bool lastButtonState;
+extern bool buttonPressed;
+extern int timeout;
+
+//void configModeCallback (AsyncWiFiManager *myWiFiManager);
+void flashBuiltInLed();
+void flashGreenLed();
 void printWiFiStatus();
+void onOTAStart();
+void onOTAProgress(size_t current, size_t final);
+void onOTAEnd(bool success);
+void checkButton();

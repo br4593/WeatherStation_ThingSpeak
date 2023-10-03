@@ -8,7 +8,7 @@ void setup() {
   ThingSpeak.begin(client);
     pinMode(LED_PIN, OUTPUT);
       ticker.attach(0.6, flashBuiltInLed);
-      ElegantOTA.setAuth("barrod4593", "GarminGNS430");
+      ElegantOTA.setAuth("", "");
 
    pinMode(TRIGGER_PIN, INPUT_PULLUP);
    pinMode(GREEN_LED_PIN, OUTPUT);

@@ -12,6 +12,7 @@
 #include "main_utils.h"
 #include "wifi_utils.h"
 #include "ThingSpeak.h"
+#include "server.h"
 
 
 //ThingSpeak definitions

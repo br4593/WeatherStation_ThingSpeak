@@ -4,6 +4,8 @@
 #include <Arduino.h>
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
+#include <NTPClient.h>
+#include <WiFiUdp.h>
 #include "sht_utils.h"
 #include "bme_utils.h"
 #include "ads_utils.h"
@@ -12,33 +14,64 @@
 #include "main_utils.h"
 #include "wifi_utils.h"
 #include "ThingSpeak.h"
+<<<<<<< HEAD
+#include "rain_utils.h"
+
+//ThingSpeak definitions
+#define TS_CH 2209504
+#define WRITE_TS_API_KEY "OF6CVEMHFWTZXMYO"
+#define READ_TS_API_KEY "0WMMKMXO41XA4M53"
+=======
 #include "server.h"
 
 
 //ThingSpeak definitions
 #define TS_CH 12345678
 #define TS_API_KEY ""
+>>>>>>> c27b9fdf6d442b10c7bd7b470984b7a59e7c1c98
 #define HUMIDITY_CH 2
 #define TEMP_CH 1
 #define PRESSURE_CH 3
 #define WIND_SPD_CH 4
 #define WIND_DIR_CH 5
 #define VPD_CH 6
+<<<<<<< HEAD
+#define HI_CH 7
+#define RAIN_CH 8
 extern unsigned long myChannelNumber;
 extern const char* myWriteAPIKey;
 
+extern WiFiUDP ntpUDP;
+extern NTPClient timeClient;
+
+extern int currentDay;
+
+=======
+extern unsigned long myChannelNumber;
+extern const char* myWriteAPIKey;
+
+>>>>>>> c27b9fdf6d442b10c7bd7b470984b7a59e7c1c98
 
 // Pin Definitions
-#define SDA 33
-#define SCL 35
+#define SDA 21
+#define SCL 22
 #define ONBOARD_LED 15
-
+#define BUILTIN_LED 2
 
 extern boolean sensors_flag;//flag to indicate if sensor data needs to be uploaded  
 extern boolean wind_speed_flag;//flag to indicate if wind speed data needs to be uploaded
 extern boolean wind_dir_flag;//flag to indicate if wind direction data needs to be uploaded 
 
 
+<<<<<<< HEAD
+=======
+
+extern boolean sensors_flag;//flag to indicate if sensor data needs to be uploaded  
+extern boolean wind_speed_flag;//flag to indicate if wind speed data needs to be uploaded
+extern boolean wind_dir_flag;//flag to indicate if wind direction data needs to be uploaded 
+
+
+>>>>>>> c27b9fdf6d442b10c7bd7b470984b7a59e7c1c98
 extern unsigned long last_wind_sample_time;
 extern unsigned long last_sensors_reading_time;
 extern unsigned long last_serial_print_time;
@@ -152,5 +185,10 @@ void flashRedLed();
 
 
 bool checkForSensorsError();
+<<<<<<< HEAD
+
+float calculateHeatIndex(float temperature, float humidity);
+=======
+>>>>>>> c27b9fdf6d442b10c7bd7b470984b7a59e7c1c98
 
 #endif // MAIN_UTILS_H

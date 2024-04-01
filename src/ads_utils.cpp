@@ -11,5 +11,14 @@ void setupADS1115() {
   if (!ads.begin()) {
     Serial.println("Failed to initialize ADS1115.");
     errorInfo.ads1115 = true;
+<<<<<<< HEAD
+  }
+
+  else
+  {
+    Serial.println("ADS1115 initialized.");
+    errorInfo.ads1115 = false;
+=======
+>>>>>>> c27b9fdf6d442b10c7bd7b470984b7a59e7c1c98
   }
 }

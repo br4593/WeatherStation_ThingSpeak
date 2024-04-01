@@ -32,8 +32,13 @@ float sum_of_wind_directions = 0.0;
 int num_of_direction_samples = 0;
 
 
+<<<<<<< HEAD
+int wind_speed_sensor_adc_channel = 1;
+int wind_dir_sensor_adc_channel = 0;
+=======
 int wind_speed_sensor_adc_channel = 0;
 int wind_dir_sensor_adc_channel = 1;
+>>>>>>> c27b9fdf6d442b10c7bd7b470984b7a59e7c1c98
 
 WindDirection directions[] = {
   {0, "North Wind", 0.0, 0.7143},

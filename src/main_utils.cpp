@@ -33,8 +33,13 @@ int error_debug = 0;
 
 
 const int LED_PIN = 15; // Replace with the appropriate onboard LED pin for your ESP32 board
+<<<<<<< HEAD
+const int GREEN_LED_PIN = 19;
+const int RED_LED_PIN = 18;
+=======
 const int GREEN_LED_PIN = 5;
 const int RED_LED_PIN = 3;
+>>>>>>> c27b9fdf6d442b10c7bd7b470984b7a59e7c1c98
 const unsigned long BLINK_INTERVAL = 500; // LED blink interval in milliseconds
 unsigned long previousBlinkMillis = 0;
 
@@ -50,7 +55,14 @@ bool greenLedState = false;
  bool redLedState = false;
 
 
+<<<<<<< HEAD
+WiFiUDP ntpUDP;
+NTPClient timeClient(ntpUDP);
 
+int currentDay;
+=======
+
+>>>>>>> c27b9fdf6d442b10c7bd7b470984b7a59e7c1c98
 
 
 /**
@@ -114,6 +126,12 @@ void printSensorData(float temperature, float humidity, float pressure, float wi
 /**
  * Initializes the sensors used in the system.
  */
+/**
+ * Initializes the sensors used in the weather station.
+ * This function sets up the ADS1115 analog-to-digital converter,
+ * the BME280 temperature, pressure, and humidity sensor,
+ * the SHT31 temperature and humidity sensor, and the rain fall sensor.
+ */
 void initSensors() {
   // Setup ADS1115 analog-to-digital converter
   setupADS1115();
@@ -123,6 +141,10 @@ void initSensors() {
 
   // Setup SHT31 temperature and humidity sensor
   setupSHT31();
+
+  // Setup rain fall sensor
+  setupRainFallSensor();
+  
 }
 
 
@@ -180,11 +202,17 @@ void uploadData() {
     ThingSpeak.setField(TEMP_CH, temperature);
     ThingSpeak.setField(PRESSURE_CH, pressure);
     ThingSpeak.setField(VPD_CH, cal_vpd(temperature, humidity));
+    ThingSpeak.setField(HI_CH, calculateHeatIndex(temperature, humidity));
+    ThingSpeak.setField(RAIN_CH, rain_sensor.getRainfall(1));
 
     if (millis() - previous_upload_time > MINIMUM_UPLOAD_INTERVAL)// Check if minimum upload interval has elapsed
     {
       previous_upload_time = millis();// Update last upload time
+<<<<<<< HEAD
+      int response = ThingSpeak.writeFields(TS_CH, WRITE_TS_API_KEY);
+=======
       int response = ThingSpeak.writeFields(TS_CH, TS_API_KEY);
+>>>>>>> c27b9fdf6d442b10c7bd7b470984b7a59e7c1c98
 
     if (response == 200) {
       Serial.println("Sensor data sent to ThingSpeak successfully!");
@@ -206,7 +234,7 @@ void uploadData() {
     if (millis() - previous_upload_time > MINIMUM_UPLOAD_INTERVAL)// Check if minimum upload interval has elapsed
     {
       previous_upload_time = millis();
-      int response = ThingSpeak.writeFields(TS_CH, TS_API_KEY);
+      int response = ThingSpeak.writeFields(TS_CH, WRITE_TS_API_KEY);
 
     if (response == 200) {
       Serial.println("Wind data sent to ThingSpeak successfully!");
@@ -254,4 +282,28 @@ void flashRedLed()
   }
 }
 
+<<<<<<< HEAD
+// Function to calculate the heat index
+float calculateHeatIndex(float temperature, float humidity) {
+    // Check if the temperature is in the valid range
+    if (temperature < 80.0 || humidity < 40.0) {
+        return temperature; // Heat index is approximately the same as the actual temperature
+    }
+    
+    // Calculate the heat index
+    float heatIndex = -42.379 + 2.04901523 * temperature + 10.14333127 * humidity
+                      - 0.22475541 * temperature * humidity - 6.83783e-03 * temperature * temperature
+                      - 5.481717e-02 * humidity * humidity + 1.22874e-03 * temperature * temperature * humidity
+                      + 8.5282e-04 * temperature * humidity * humidity - 1.99e-06 * temperature * temperature * humidity * humidity;
+    
+    // Ensure the heat index is within a valid range
+    if (heatIndex < temperature) {
+        return temperature; // Heat index cannot be lower than the temperature
+    }
+    
+    return heatIndex;
+}
+
+=======
+>>>>>>> c27b9fdf6d442b10c7bd7b470984b7a59e7c1c98
 

@@ -13,6 +13,16 @@ void setupBME280() {
   if (!bme.begin(BME_ADDRESS)) {
     Serial.println("Could not find a valid BME280 sensor. Please check the wiring!");
     errorInfo.bme280 = true;
+<<<<<<< HEAD
+  }
+
+  else
+  {
+    Serial.println("BME280 sensor found!");
+    errorInfo.bme280 = false;
+  
+=======
+>>>>>>> c27b9fdf6d442b10c7bd7b470984b7a59e7c1c98
   }
 }
 

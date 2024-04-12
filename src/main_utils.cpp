@@ -11,7 +11,7 @@ const unsigned long serial_print_interval = 60000; // Print sensor data every 1 
 const unsigned long wifi_status_interval = 30000; 
 
 int SENSORS_READING_INTERVAL_IN_MINUTES = 15;
-int SENSORS_READING_INTERVAL = SENSORS_READING_INTERVAL_IN_MINUTES * ONE_MINUTE_IN_SECONDS * 1000;
+int SENSORS_READING_INTERVAL = SENSORS_READING_INTERVAL_IN_MINUTES * 60 * 1000;
 
 const unsigned int MINIMUM_UPLOAD_INTERVAL = 15000;
 unsigned int previous_upload_time = 0;
@@ -33,13 +33,8 @@ int error_debug = 0;
 
 
 const int LED_PIN = 15; // Replace with the appropriate onboard LED pin for your ESP32 board
-<<<<<<< HEAD
 const int GREEN_LED_PIN = 19;
 const int RED_LED_PIN = 18;
-=======
-const int GREEN_LED_PIN = 5;
-const int RED_LED_PIN = 3;
->>>>>>> c27b9fdf6d442b10c7bd7b470984b7a59e7c1c98
 const unsigned long BLINK_INTERVAL = 500; // LED blink interval in milliseconds
 unsigned long previousBlinkMillis = 0;
 
@@ -55,14 +50,10 @@ bool greenLedState = false;
  bool redLedState = false;
 
 
-<<<<<<< HEAD
 WiFiUDP ntpUDP;
 NTPClient timeClient(ntpUDP);
 
 int currentDay;
-=======
-
->>>>>>> c27b9fdf6d442b10c7bd7b470984b7a59e7c1c98
 
 
 /**
@@ -208,11 +199,7 @@ void uploadData() {
     if (millis() - previous_upload_time > MINIMUM_UPLOAD_INTERVAL)// Check if minimum upload interval has elapsed
     {
       previous_upload_time = millis();// Update last upload time
-<<<<<<< HEAD
       int response = ThingSpeak.writeFields(TS_CH, WRITE_TS_API_KEY);
-=======
-      int response = ThingSpeak.writeFields(TS_CH, TS_API_KEY);
->>>>>>> c27b9fdf6d442b10c7bd7b470984b7a59e7c1c98
 
     if (response == 200) {
       Serial.println("Sensor data sent to ThingSpeak successfully!");
@@ -282,7 +269,6 @@ void flashRedLed()
   }
 }
 
-<<<<<<< HEAD
 // Function to calculate the heat index
 float calculateHeatIndex(float temperature, float humidity) {
     // Check if the temperature is in the valid range
@@ -304,6 +290,4 @@ float calculateHeatIndex(float temperature, float humidity) {
     return heatIndex;
 }
 
-=======
->>>>>>> c27b9fdf6d442b10c7bd7b470984b7a59e7c1c98
 

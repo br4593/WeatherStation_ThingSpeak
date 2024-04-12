@@ -1,20 +1,13 @@
 #include "main_utils.h"
 
-<<<<<<< HEAD
+
 void setup() {
   // Initialize serial communication
-=======
-
-
-void setup() {
-
->>>>>>> c27b9fdf6d442b10c7bd7b470984b7a59e7c1c98
   Serial.begin(115200);
   Serial.println("Booting");
 
   // Initialize ThingSpeak client
   ThingSpeak.begin(client);
-<<<<<<< HEAD
 
   // Set LED pin as output
   pinMode(LED_PIN, OUTPUT);
@@ -53,50 +46,17 @@ void setup() {
   delay(1000);
 
   // Initial reading of all sensor values upon startup
-=======
-    pinMode(LED_PIN, OUTPUT);
-      ticker.attach(0.6, flashBuiltInLed);
-      ElegantOTA.setAuth("", "");
-
-   pinMode(TRIGGER_PIN, INPUT_PULLUP);
-   pinMode(GREEN_LED_PIN, OUTPUT);
-    pinMode(RED_LED_PIN, OUTPUT);
-
-  WiFi.mode(WIFI_STA); // explicitly set mode, esp defaults to STA+AP , for WifiManager
-  delay(1000);
-
-  pinMode(TRIGGER_PIN, INPUT_PULLUP);
-
-  digitalWrite(BUILTIN_LED, HIGH);
-
-
-  setI2C();//Set I2C Pins
-  delay(500);
-
-  initSensors();//Init all I2C Sensors
-
-  delay(1000);
-
-/**
- * Initiale reading of all values upon startup
-*/
->>>>>>> c27b9fdf6d442b10c7bd7b470984b7a59e7c1c98
   temperature = readTemperature();
   humidity = readHumidity();
   pressure = readPressure();
   wind_speed = readWindSpeed();
   wind_direction = readWindDir();
 
-<<<<<<< HEAD
   // Define root route for HTTP server
-=======
-
->>>>>>> c27b9fdf6d442b10c7bd7b470984b7a59e7c1c98
   server.on("/", []() {
     server.send(200, "text/plain", "Hi! This is ElegantOTA Demo.");
   });
 
-<<<<<<< HEAD
   // Start ElegantOTA
   ElegantOTA.begin(&server);
 
@@ -119,22 +79,14 @@ void setup() {
   currentDay = timeClient.getDay();
 
   // Set flags
-=======
-
-
-  ElegantOTA.begin(&server);    // Start ElegantOTA
-  server.begin();
-  Serial.println("HTTP server started");
-  debugPage();
-  setupTime();
->>>>>>> c27b9fdf6d442b10c7bd7b470984b7a59e7c1c98
   sensors_flag = true;
   wind_dir_flag = true;
   wind_speed_flag = true;
 
-<<<<<<< HEAD
   // Delay for stability
   delay(1000);
+
+  
 
   // Upload data to ThingSpeak
   uploadData();
@@ -147,65 +99,9 @@ void setup() {
 }
 
 void loop() {
-  // Read wind speed voltage
-  spd_voltage_debug = ads.computeVolts(ads.readADC_SingleEnded(wind_speed_sensor_adc_channel));
-=======
-  delay(1000);
-  uploadData();
-
-
-}
-
-void loop() {
-spd_voltage_debug = ads.computeVolts(ads.readADC_SingleEnded(wind_speed_sensor_adc_channel));
-delay(500);
-dir_voltage_debug = ads.computeVolts(ads.readADC_SingleEnded(1));
-
-server.handleClient();
-  ElegantOTA.loop();
-
-
-
-
-checkButton();
-
-  if (WiFi.status() != WL_CONNECTED) {
-    Serial.println("Wifi not connected");
-    greenLedTicker.attach(0.5,flashGreenLed);
-    WiFi.begin();
-    delay(500);
-  }
-
-  if (WiFi.status() == WL_CONNECTED) {
-    greenLedTicker.detach();
-    digitalWrite(GREEN_LED_PIN, HIGH);
-  }
-
-  if (checkForSensorsError())
-  {
-    error_debug = true;
-    redLedTicker.attach(0.5,flashRedLed);
-    printError(errorInfo);
-    delay(500);
-  }
-
-  else
-  {
-    redLedTicker.detach();
-    digitalWrite(RED_LED_PIN, LOW);
-  }
-
-  readSensorData(temperature, humidity, pressure);
-  readWindData(wind_direction ,wind_speed);
-  uploadData();
->>>>>>> c27b9fdf6d442b10c7bd7b470984b7a59e7c1c98
 
   // Delay for stability
-  delay(500);
-
-<<<<<<< HEAD
-  // Read wind direction voltage
-  dir_voltage_debug = ads.computeVolts(ads.readADC_SingleEnded(wind_dir_sensor_adc_channel));
+  delay(100);
 
   // Handle HTTP client requests
   server.handleClient();
@@ -221,7 +117,8 @@ checkButton();
     currentRainfall = 0;
   }
 
-
+spd_voltage_debug = ads.computeVolts(ads.readADC_SingleEnded(1));
+dir_voltage_debug = ads.computeVolts(ads.readADC_SingleEnded(WIND_DIR_SENSOR_ADC_CHANNEL));
 
   // Print formatted time
   Serial.println(timeClient.getFormattedTime());
@@ -277,6 +174,7 @@ checkButton();
     digitalWrite(RED_LED_PIN, HIGH);
   }
 
+
   // Read sensor data
   readSensorData(temperature, humidity, pressure);
 
@@ -287,8 +185,6 @@ checkButton();
   uploadData();
 
   // Print sensor data and WiFi status at specified interval
-=======
->>>>>>> c27b9fdf6d442b10c7bd7b470984b7a59e7c1c98
   if (millis() - last_serial_print_time >= serial_print_interval) {
     last_serial_print_time = millis();
     printSensorData(temperature, humidity, pressure, wind_speed, wind_direction);

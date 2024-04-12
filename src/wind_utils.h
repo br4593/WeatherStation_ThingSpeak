@@ -7,17 +7,13 @@
 #define VOLTAGE_REF 5.0
 #define SPEED_MAX 30
 
-// Number of wind speed samples to store
-extern const int ONE_MINUTE_IN_SECONDS;
-extern int NUM_OF_SAMPLES_PER_MINUTE;
-extern int WIND_AVERAGE_PERIOD_IN_MINUTES;
-extern int NUM_OF_WIND_SAMPLES_PER_PERIOD;
+
 
 // Time interval between wind speed samples in milliseconds
-extern unsigned long WIND_SAMPLE_INTERVAL;
+extern const unsigned long WIND_SAMPLE_INTERVAL;
 
-extern int wind_speed_sensor_adc_channel;
-extern int wind_dir_sensor_adc_channel;
+extern const int WIND_SPEED_SENSOR_ADC_CHANNEL;
+extern const int WIND_DIR_SENSOR_ADC_CHANNEL;
 
 
 // Structure to represent wind direction
@@ -39,8 +35,7 @@ int readWindDir();
 float readWindSpeed();
 float computeSpeed(float voltage);
 float mpsToKmph(float speed);
-void resetArrayToZero(float* arr, int size);
-String getWindDirectionString(int directionNumber);
+
 void setupWindSensorChannels(int windSpeedADCCh, int windDirADCCh);
 
 #endif

@@ -13,14 +13,11 @@ void setupSHT31() {
   if (!sht.begin(SHT_ADDRESS)) {
     Serial.println("Couldn't find SHT31 sensor! Please check the wiring.");
     errorInfo.sht31 = true;
-<<<<<<< HEAD
   }
 
   else{
     Serial.println("SHT31 sensor found!");
     errorInfo.sht31 = false;
-=======
->>>>>>> c27b9fdf6d442b10c7bd7b470984b7a59e7c1c98
   }
   
   // Read and print the sensor status for debugging purposes

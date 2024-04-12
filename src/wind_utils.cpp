@@ -1,44 +1,21 @@
 #include "wind_utils.h"
-#include <Arduino.h>
 
-const int ONE_MINUTE_IN_SECONDS = 60;
-/*int NUM_OF_SAMPLES_PER_MINUTE = 60;
-int WIND_AVERAGE_PERIOD_IN_MINUTES = 1;
-int NUM_OF_WIND_SAMPLES_PER_PERIOD = NUM_OF_SAMPLES_PER_MINUTE * WIND_AVERAGE_PERIOD_IN_MINUTES;
-//unsigned long WIND_SAMPLE_INTERVAL = (ONE_MINUTE_IN_SECONDS / NUM_OF_SAMPLES_PER_MINUTE) * 1000;
-
-
-
-const int MAX_NUM_OF_SAMPLES_PER_MINUTE = 10;
-const int MAX_WIND_AVERAGE_PERIOD_IN_MINUTES = 60;
-const int MAX_NUM_OF_WIND_SAMPLES_PER_PERIOD = MAX_NUM_OF_SAMPLES_PER_MINUTE * MAX_WIND_AVERAGE_PERIOD_IN_MINUTES;
-
-float aveWindSpdCalcArr[MAX_NUM_OF_WIND_SAMPLES_PER_PERIOD];
-float aveWindDirCalcArr[MAX_NUM_OF_WIND_SAMPLES_PER_PERIOD];
-int currentSpeedSampleIndex = 0;
-int currentDirectionSampleIndex = 0;
-*/
 
 
 unsigned long start_of_speed_sample_time = 0;
 unsigned long last_speed_sample_time = 0;
 unsigned long last_direction_sample_time = 0;
 unsigned long start_of_direction_sample_time = 0;
-unsigned long WIND_SAMPLE_INTERVAL = 1000;
+
 unsigned long wind_average_period_length = 60000;
 float sum_of_wind_speeds = 0.0;
 int num_of_speed_samples = 0;
 float sum_of_wind_directions = 0.0;
 int num_of_direction_samples = 0;
 
-
-<<<<<<< HEAD
-int wind_speed_sensor_adc_channel = 1;
-int wind_dir_sensor_adc_channel = 0;
-=======
-int wind_speed_sensor_adc_channel = 0;
-int wind_dir_sensor_adc_channel = 1;
->>>>>>> c27b9fdf6d442b10c7bd7b470984b7a59e7c1c98
+const unsigned long WIND_SAMPLE_INTERVAL = 1000;
+const int WIND_SPEED_SENSOR_ADC_CHANNEL = 1;
+const int WIND_DIR_SENSOR_ADC_CHANNEL = 0;
 
 WindDirection directions[] = {
   {0, "North Wind", 0.0, 0.7143},
@@ -102,122 +79,7 @@ float aveWindDir()
 
 
 
-/*
-float sampleWindSpeed(float* arr) {
 
-  if ((millis() - last_speed_sample_time >= WIND_SAMPLE_INTERVAL)) {
-    float temp_wind_speed = readWindSpeed();
-    aveWindSpdCalcArr[currentSpeedSampleIndex] = temp_wind_speed;
-    last_speed_sample_time = millis();
-
-
-    // Debug prints for the current sample
-    Serial.println("\n\n*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
-    Serial.println("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*\n\n");
-    Serial.print("Sample Index (Speed): ");
-    Serial.println(currentSpeedSampleIndex + 1);
-    Serial.print(" Out of: ");
-    Serial.println(NUM_OF_WIND_SAMPLES_PER_PERIOD);
-    Serial.print("Current Wind Speed Sample: ");
-    Serial.print(temp_wind_speed);
-    Serial.println(" km/h");
-    Serial.println("\n\n*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
-
-    currentSpeedSampleIndex++;
-    if (currentSpeedSampleIndex >= NUM_OF_WIND_SAMPLES_PER_PERIOD) {
-      currentSpeedSampleIndex = 0;
-
-      float sumWindSpeeds = 0.0;
-      for (int i = 0; i < NUM_OF_WIND_SAMPLES_PER_PERIOD; i++) {
-        sumWindSpeeds += aveWindSpdCalcArr[i];
-      }
-      float averageWindSpeed = sumWindSpeeds / NUM_OF_WIND_SAMPLES_PER_PERIOD;
-
-      // Debug prints for the average wind speed over the specified period
-      Serial.println("\n\n*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
-      Serial.println("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*\n\n");
-      Serial.print("Average Wind Speed (last ");
-      Serial.print(WIND_AVERAGE_PERIOD_IN_MINUTES);
-      Serial.print(" minutes): ");
-      Serial.print(averageWindSpeed);
-      Serial.println(" km/h");
-      Serial.println("\n\n*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
-
-      resetArrayToZero(arr, NUM_OF_WIND_SAMPLES_PER_PERIOD);
-      wind_speed_flag = true;
-      return averageWindSpeed;
-    }
-  }
-
-  // If there's no new sample yet, return the default value (-1)
-  return wind_speed;
-}*/
-
-/*
-int sampleWindDirection(float* arr) {
-
-  unsigned long lastDirectionSampleTime = 0;
-    float temp_wind_dir = readWindDir();
-    aveWindDirCalcArr[currentDirectionSampleIndex] = temp_wind_dir;
-        lastDirectionSampleTime = millis();
-
-    // Debug prints for the current sample
-    Serial.println("\n\n*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
-    Serial.println("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*\n\n");
-    Serial.print("Sample Index (Direction): ");
-    Serial.println(currentDirectionSampleIndex + 1);
-    Serial.print(" Out of: ");
-    Serial.println(NUM_OF_WIND_SAMPLES_PER_PERIOD);
-    Serial.print("Current Wind Direction: ");
-    Serial.println(temp_wind_dir);
-    Serial.println("\n\n*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
-    currentDirectionSampleIndex++; // Move this line here to update index only after the sample is taken
-  }
-
-  if (currentDirectionSampleIndex >= NUM_OF_WIND_SAMPLES_PER_PERIOD) {
-    currentDirectionSampleIndex = 0;
-
-    int sumWindDirection = 0;
-    for (int i = 0; i < NUM_OF_WIND_SAMPLES_PER_PERIOD; i++) {
-      sumWindDirection += aveWindDirCalcArr[i];
-    }
-
-    int averageWindDirection = sumWindDirection / NUM_OF_WIND_SAMPLES_PER_PERIOD;
-
-    // Debug prints for the average wind direction over the specified period
-    Serial.println("\n\n*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
-    Serial.println("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*\n\n");
-    Serial.print("Average Wind Direction (last ");
-    Serial.print(WIND_AVERAGE_PERIOD_IN_MINUTES);
-    Serial.print(" minutes): ");
-    Serial.println(averageWindDirection);
-    Serial.println("\n\n*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
-
-    resetArrayToZero(aveWindDirCalcArr, NUM_OF_WIND_SAMPLES_PER_PERIOD); // Reset the array, not 'arr'
-    wind_dir_flag = true;
-
-    return averageWindDirection;
-  }
-
-  return wind_direction;
-}*/
-
-
-
-/**
- * Returns the wind direction asa string based on the direction number.
- *
- * @param directionNumber - The wind direction number.
- * @return The wind direction as a string.
- */
-String getWindDirectionString(int directionNumber) {
-  for (int i = 0; i < sizeof(directions) / sizeof(directions[0]); i++) {
-    if (i == directionNumber) {
-      return directions[i].name;
-    }
-  }
-  return "Unknown";
-}
 
 /**
  * Computes the wind speed based on the voltage reading.
@@ -239,22 +101,11 @@ float mpsToKmph(float speed) {
   return speed * 3.6;
 }
 
-/**
- * Resets all elements of an array to zero.
- *
- * @param arr - The array to be reset.
- * @param size - The size of the array.
- */
-void resetArrayToZero(float* arr, int size) {
-  for (int i = 0; i < size; i++) {
-    arr[i] = 0.0;
-  }
-}
 
 float readWindSpeed()
 {
   // Read wind speed from ADS1115 analog-to-digital converter
-  int16_t wind_speed_adc_ch_reading = ads.readADC_SingleEnded(wind_speed_sensor_adc_channel);
+  int16_t wind_speed_adc_ch_reading = ads.readADC_SingleEnded(WIND_SPEED_SENSOR_ADC_CHANNEL);
   float wind_speed_volts = ads.computeVolts(wind_speed_adc_ch_reading);
   float temp_wind_speed = mpsToKmph(computeSpeed(wind_speed_volts));
 
@@ -280,7 +131,7 @@ int readWindDir()
   Serial.println("Debugging readWindDir Function");
 
   // Read ADC channel for wind direction sensor
-  int16_t wind_dir_adc_ch_reading = ads.readADC_SingleEnded(wind_dir_sensor_adc_channel);
+  int16_t wind_dir_adc_ch_reading = ads.readADC_SingleEnded(WIND_DIR_SENSOR_ADC_CHANNEL);
 
   // Convert ADC reading to voltage
   float wind_dir_volts = ads.computeVolts(wind_dir_adc_ch_reading);

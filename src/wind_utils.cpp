@@ -16,6 +16,7 @@ int num_of_direction_samples = 0;
 const unsigned long WIND_SAMPLE_INTERVAL = 1000;
 const int WIND_SPEED_SENSOR_ADC_CHANNEL = 1;
 const int WIND_DIR_SENSOR_ADC_CHANNEL = 0;
+const int MPS_TO_KMPH_FACTOR = 3.6;
 
 WindDirection directions[] = {
   {0, "North Wind", 0.0, 0.7143},
@@ -98,7 +99,7 @@ float computeSpeed(float voltage) {
  * @return The wind speed in kilometers per hour (km/h).
  */
 float mpsToKmph(float speed) {
-  return speed * 3.6;
+  return speed * MPS_TO_KMPH_FACTOR;
 }
 
 
@@ -147,7 +148,7 @@ int readWindDir()
     if (wind_dir_volts >= directions[i].voltageMin && wind_dir_volts < directions[i].voltageMax) {
       Serial.print("Found a direction: ");
       Serial.println(directions[i].name);
-      temp_wind_dir = directions[i].number;
+      temp_wind_dir = directions[i].degrees;
       break; // Exit the loop once a direction is found
     }
   }

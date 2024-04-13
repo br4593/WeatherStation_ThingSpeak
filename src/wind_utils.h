@@ -18,15 +18,13 @@ extern const int WIND_DIR_SENSOR_ADC_CHANNEL;
 
 // Structure to represent wind direction
 struct WindDirection {
-  int number;
+  int degrees;
   String name;
   float voltageMin;
   float voltageMax;
 };
 
-// Function prototypes
-//float sampleWindSpeed(float* arr);
-//int sampleWindDirection(float* arr);
+
 
 float aveWindSpeed();
 float aveWindDir();

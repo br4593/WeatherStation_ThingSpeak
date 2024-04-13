@@ -79,4 +79,33 @@ For detailed connections and pin assignments, refer to the `wiring_diagram.txt` 
 | XH 2.54 4 Pins Male                         | 8        | [Link](https://www.aliexpress.com/item/1005001530994945.html?spm=a2g0o.order_list.order_list_main.726.3d44586ajupSXF) |         |
 
 
+## Connectors Wiring
+
+### Connector Type: SP13 5 Pins
+
+| Pin Num | Type     |
+|---------|----------|
+| 1       | 12V+     |
+| 2       | GND      |
+| 3       | Sig -(GND)|
+| 4       | Sig +    |
+| 5       | Spare    |
+
+### Connector Type: SP13 4 Pins
+
+| Pin Num | Type |
+|---------|------|
+| 1       | 3.3V+|
+| 2       | GND  |
+| 3       | SDA  |
+| 4       | SCL  |
+
+### Connector Type: SP13 2 Pins
+
+| Pin Num | Type |
+|---------|------|
+| 1       | 12V+ |
+| 2       | GND  |
+
+
 This project is licensed under the [MIT License](LICENSE).

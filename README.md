@@ -1,6 +1,6 @@
 # ESP32-S2 Mini Weather Station
 
-![Weather Station](weather_station.jpg)
+![Weather Station](docs/wind.jpg)
 
 This repository contains the code and instructions to set up an ESP32-S2 mini weather station. The weather station is equipped with various sensors to measure wind speed, wind direction, pressure, humidity, and temperature. Additionally, it includes LEDs for status indication and necessary components for proper sensor interfacing.
 
@@ -34,7 +34,7 @@ This repository contains the code and instructions to set up an ESP32-S2 mini we
 
 Follow the wiring diagram below to connect the components properly:
 
-![Wiring Diagram](wiring_diagram.png)
+![Wiring Diagram](docs/wiring_diagram.png)
 
 
 
@@ -63,7 +63,7 @@ For detailed connections and pin assignments, refer to the `wiring_diagram.txt` 
 | Latch Push Button                           | 1        |                                                                                                                           |         |
 | Micro USB Male to Type C Female Cable       | 1        | [Link](https://www.aliexpress.com/item/1005005243863950.html?spm=a2g0o.order_list.order_list_main.488.3d44586ajupSXF) |         |
 | Momentary Push Button                       | 1        |                                                                                                                           |         |
-| PCB                                          | 1        |                                                                                                                           |         |
+| PCB                                          | 1        |      [Link](https://github.com/your-username/your-repo/blob/main/docs/pcb_easyeda.json)                                                                                                                     |         |
 | Rain Bucket(MS-WH-SP-RG)                    | 1        | [Link](https://www.aliexpress.com/item/2026877912.html?spm=a2g0o.order_list.order_list_main.451.3d44586ajupSXF)    |         |
 | RJ11 Male to Male Cable                     | 1        |                                                                                                                           |         |
 | RJ11 Panel Connector                        | 1        | [Link](https://www.aliexpress.com/item/1005002946551051.html?spm=a2g0o.order_list.order_list_main.578.3d44586ajupSXF) |         |

@@ -38,25 +38,43 @@ Follow the wiring diagram below to connect the components properly:
 
 For detailed connections and pin assignments, refer to the `wiring_diagram.txt` file in this repository.
 
-## Installation and Setup
+## BOM
 
-1. Clone this repository to your local machine or download it as a ZIP file.
-2. Open the project in your preferred ESP32 development environment (e.g., Arduino IDE, PlatformIO).
-3. Make sure to install any required libraries listed in the code's dependencies section.
-4. Connect your ESP32-S2 board to your computer via USB.
-5. Upload the code to your ESP32-S2 board.
-6. Monitor the serial output to observe sensor readings and system status.
+| Name                                         | Quantity | Link                                                                                                                      | Picture |
+|----------------------------------------------|----------|---------------------------------------------------------------------------------------------------------------------------|---------|
+| 0.4 Axial, 0.25W Resistor 100               | 2        | [Link](https://www.aliexpress.com/item/1005006027365448.html?spm=a2g0o.order_list.order_list_main.658.3d44586ajupSXF) |         |
+| 0.4 Axial, 0.25W Resistor 10K               | 2        | [Link](https://www.aliexpress.com/item/1005006027365448.html?spm=a2g0o.order_list.order_list_main.658.3d44586ajupSXF) |         |
+| 0.4 Axial, 0.25W Resistor 4.7K              | 4        | [Link](https://www.aliexpress.com/item/1005006027365448.html?spm=a2g0o.order_list.order_list_main.658.3d44586ajupSXF) |         |
+| 1.13 IPX U.FL IPEX to SMA                   | 1        | [Link](https://www.aliexpress.com/item/1005003637068635.html?spm=a2g0o.order_list.order_list_main.1553.3d44586ajupSXF) |         |
+| 4CH LLC 5 to 3.3V                           | 1        | [Link](https://www.aliexpress.com/item/4000552920569.html?spm=a2g0o.order_list.order_list_main.1805.3d44586ajupSXF) |         |
+| ADS1115 PCB Version                         | 1        | [Link](https://www.aliexpress.com/item/32817162654.html?spm=a2g0o.order_list.order_list_main.626.3d44586ajupSXF)    |         |
+| Analoug Wind Direction Sensor (0-5V)        | 1        | [Link](https://www.aliexpress.com/item/1005004770322638.html?spm=a2g0o.order_list.order_list_main.1386.3d44586ajupSXF) |         |
+| Analoug Wind Speed Sensor (0-5V)            | 1        | [Link](https://www.aliexpress.com/item/1005004770322638.html?spm=a2g0o.order_list.order_list_main.1386.3d44586ajupSXF) |         |
+| BME280                                       | 1        | [Link](https://www.aliexpress.com/item/32862445164.html?spm=a2g0o.order_list.order_list_main.1366.3d44586ajupSXF)    |         |
+| DD2712SA 3.3V                               | 1        | [Link](https://www.aliexpress.com/item/32949929824.html?spm=a2g0o.order_list.order_list_main.1698.3d44586ajupSXF)  |         |
+| DD2712SA 5V                                 | 1        | [Link](https://www.aliexpress.com/item/32949929824.html?spm=a2g0o.order_list.order_list_main.1698.3d44586ajupSXF)  |         |
+| DF Robot Gravity Board                      | 1        |                                                                                                                           |         |
+| ESP32S                                       | 1        | [Link](https://www.aliexpress.com/item/1005005398604818.html?spm=a2g0o.order_list.order_list_main.1512.3d44586ajupSXF) |         |
+| Green LED 12V                               | 1        | [Link](https://www.aliexpress.com/item/1005003482664110.html?spm=a2g0o.order_list.order_list_main.1316.3d44586ajupSXF) |         |
+| IRLB8748PBF                                 | 2        | [Link](https://www.aliexpress.com/item/4000741527444.html?spm=a2g0o.order_list.order_list_main.1351.3d44586ajupSXF) |         |
+| KF301-5.0-2P Terminal Block Connector       | 1        | [Link](https://www.aliexpress.com/item/1005003373535370.html?spm=a2g0o.order_list.order_list_main.1331.3d44586ajupSXF) |         |
+| Latch Push Button                           | 1        |                                                                                                                           |         |
+| Micro USB Male to Type C Female Cable       | 1        | [Link](https://www.aliexpress.com/item/1005005243863950.html?spm=a2g0o.order_list.order_list_main.488.3d44586ajupSXF) |         |
+| Momentary Push Button                       | 1        |                                                                                                                           |         |
+| PCB                                          | 1        |                                                                                                                           |         |
+| Rain Bucket(MS-WH-SP-RG)                    | 1        | [Link](https://www.aliexpress.com/item/2026877912.html?spm=a2g0o.order_list.order_list_main.451.3d44586ajupSXF)    |         |
+| RJ11 Male to Male Cable                     | 1        |                                                                                                                           |         |
+| RJ11 Panel Connector                        | 1        | [Link](https://www.aliexpress.com/item/1005002946551051.html?spm=a2g0o.order_list.order_list_main.578.3d44586ajupSXF) |         |
+| Red LED 12V                                 | 1        | [Link](https://www.aliexpress.com/item/1005003482664110.html?spm=a2g0o.order_list.order_list_main.1316.3d44586ajupSXF) |         |
+| SP13 Connector 2 Pins With Back Nut         | 1        | [Link](https://www.aliexpress.com/item/1005003180200877.html?spm=a2g0o.order_list.order_list_main.736.3d44586ajupSXF) |         |
+| SP13 Connector 4 Pins With Back Nut         | 2        | [Link](https://www.aliexpress.com/item/1005003180200877.html?spm=a2g0o.order_list.order_list_main.736.3d44586ajupSXF) |         |
+| SP13 Connector 5 Pins With Back Nut         | 2        | [Link](https://www.aliexpress.com/item/1005003180200877.html?spm=a2g0o.order_list.order_list_main.736.3d44586ajupSXF) |         |
+| USB C Panel Connector                       | 1        | [Link](https://www.aliexpress.com/item/1005001290769478.html?spm=a2g0o.order_list.order_list_main.1356.3d44586ajupSXF) |         |
+| Wifi Ant SMA Male                            | 1        | [Link](https://www.aliexpress.com/item/1005003496632185.html?spm=a2g0o.order_list.order_list_main.1516.3d44586ajupSXF) |         |
+| XH 2.54 2 Pins Female                       | 12       | [Link](https://www.aliexpress.com/item/1005001530994945.html?spm=a2g0o.order_list.order_list_main.697.3d44586ajupSXF) |         |
+| XH 2.54 2 Pins Male                         | 12       | [Link](https://www.aliexpress.com/item/1005001530994945.html?spm=a2g0o.order_list.order_list_main.697.3d44586ajupSXF) |         |
+| XH 2.54 4 Pins Female                       | 8        | [Link](https://www.aliexpress.com/item/1005001530994945.html?spm=a2g0o.order_list.order_list_main.726.3d44586ajupSXF) |         |
+| XH 2.54 4 Pins Male                         | 8        | [Link](https://www.aliexpress.com/item/1005001530994945.html?spm=a2g0o.order_list.order_list_main.726.3d44586ajupSXF) |         |
 
-## Usage
-
-- The ESP32-S2 will collect data from all the sensors and provide real-time information through the serial monitor.
-- Green LED indicates normal operation. Red LED indicates alerts or critical conditions.
-- Modify the code to implement specific actions based on sensor readings, such as sending alerts or storing data.
-
-## Contributing
-
-Contributions to this project are welcome! If you find any issues or want to enhance the functionality, feel free to create a pull request.
-
-## License
 
 This project is licensed under the [MIT License](LICENSE).

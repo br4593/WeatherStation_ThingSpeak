@@ -34,6 +34,8 @@ This repository contains the code and instructions to set up an ESP32-S2 mini we
 
 Follow the wiring diagram below to connect the components properly:
 
+![Wiring Diagram](wiring_diagram.png)
+
 
 
 For detailed connections and pin assignments, refer to the `wiring_diagram.txt` file in this repository.

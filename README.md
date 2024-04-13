@@ -79,6 +79,22 @@ For detailed connections and pin assignments, refer to the `wiring_diagram.txt` 
 | XH 2.54 4 Pins Male                         | 8        | [Link](https://www.aliexpress.com/item/1005001530994945.html?spm=a2g0o.order_list.order_list_main.726.3d44586ajupSXF) |         |
 
 
+### ESP32 Wiring
+
+| ESP32 Pin | Type      |
+|-----------|-----------|
+| 22        | SCL       |
+| 21        | SDA       |
+| 19        | Green LED |
+| 18        | Red LED   |
+| 17        | GPIO2     |
+| 16        | GPIO1     |
+| 15        | CFG SW    | 
+| EN        | RST SW    |
+
+
+
+
 ## Connectors Wiring
 
 ### Connector Type: SP13 5 Pins

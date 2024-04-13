@@ -90,7 +90,7 @@ void checkButton()
   if (buttonPressed) {
     wifiManager.setConfigPortalTimeout(timeout);
 
-    if (!wifiManager.startConfigPortal("WeatherStation-WiFiConfig","11223344")) {
+    if (!wifiManager.startConfigPortal(WIFI_CONFIG_AP,WIFI_CONFIG_PASS)) {
       Serial.println("failed to connect and hit timeout");
       delay(3000);
       //reset and try again, or maybe put it to deep sleep

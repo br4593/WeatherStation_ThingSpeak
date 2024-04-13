@@ -16,7 +16,7 @@ void setup() {
   ticker.attach(0.6, flashBuiltInLed);
 
   // Set authentication credentials for OTA updates
-  ElegantOTA.setAuth("barrod4593", "GarminGNS430");
+  ElegantOTA.setAuth(OTA_USER, OTA_PASS);
 
   // Set pin modes for trigger, green LED, and red LED
   pinMode(TRIGGER_PIN, INPUT_PULLUP);

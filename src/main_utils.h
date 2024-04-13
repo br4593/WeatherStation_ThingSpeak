@@ -15,21 +15,9 @@
 #include "wifi_utils.h"
 #include "ThingSpeak.h"
 #include "rain_utils.h"
+#include "secrets.h"
 
-//ThingSpeak definitions
-#define TS_CH 2209504
-#define WRITE_TS_API_KEY "OF6CVEMHFWTZXMYO"
-#define READ_TS_API_KEY "0WMMKMXO41XA4M53"
-#define HUMIDITY_CH 2
-#define TEMP_CH 1
-#define PRESSURE_CH 3
-#define WIND_SPD_CH 4
-#define WIND_DIR_CH 5
-#define VPD_CH 6
-#define HI_CH 7
-#define RAIN_CH 8
-extern unsigned long myChannelNumber;
-extern const char* myWriteAPIKey;
+
 
 extern WiFiUDP ntpUDP;
 extern NTPClient timeClient;

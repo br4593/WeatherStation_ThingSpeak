@@ -34,7 +34,7 @@ This repository contains the code and instructions to set up an ESP32-S2 mini we
 
 ![](media/306a9cfeca42db9df8390bd871be2ecf.png)
 
-## Wiring
+## PCB Diagram
 
 Follow the wiring diagram below to connect the components properly:
 
@@ -81,6 +81,8 @@ For detailed connections and pin assignments, refer to the `wiring_diagram.txt` 
 | XH 2.54 4 Pins Male                   | 8        | [Link](https://www.aliexpress.com/item/1005001530994945.html?spm=a2g0o.order_list.order_list_main.726.3d44586ajupSXF)  |         |
 
 ### ESP32 Wiring
+
+![](media/23b631c283433f7c977378bf4ca1255a.png)
 
 | ESP32 Pin | Type      |
 |-----------|-----------|

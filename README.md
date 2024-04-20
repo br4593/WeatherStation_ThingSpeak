@@ -30,6 +30,10 @@ This repository contains the code and instructions to set up an ESP32-S2 mini we
 -   Step-Down Converters: Voltage regulators for stable power supply to the components.
 -   Logic Level Converter: Ensures proper voltage translation between components with different logic levels.
 
+## Block Diagram
+
+![](media/306a9cfeca42db9df8390bd871be2ecf.png)
+
 ## Wiring
 
 Follow the wiring diagram below to connect the components properly:

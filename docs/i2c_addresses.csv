@@ -1,0 +1,5 @@
+Device,Voltage,Address
+ADS1115,5V,0x48
+BME280,3.3V,0x76
+SHT31,3.3V,0x44
+DFRobot Gravity,3.3V,0x1D

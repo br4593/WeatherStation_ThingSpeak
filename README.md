@@ -97,7 +97,7 @@ For detailed connections and pin assignments, refer to the `wiring_diagram.txt` 
 
 ## Connectors Wiring
 
-### Connector Type: SP13 5 Pins
+### Connector Type: SP13 5 Pins - Wind Sensors
 
 | Pin Num | Type     |
 |---------|----------|
@@ -107,7 +107,7 @@ For detailed connections and pin assignments, refer to the `wiring_diagram.txt` 
 | 4       | Sig +    |
 | 5       | Spare    |
 
-### Connector Type: SP13 4 Pins
+### Connector Type: SP13 4 Pins - I2C Devices
 
 | Pin Num | Type |
 |---------|------|
@@ -116,7 +116,7 @@ For detailed connections and pin assignments, refer to the `wiring_diagram.txt` 
 | 3       | SDA  |
 | 4       | SCL  |
 
-### Connector Type: SP13 2 Pins
+### Connector Type: SP13 2 Pins - Main Power Supply
 
 | Pin Num | Type |
 |---------|------|

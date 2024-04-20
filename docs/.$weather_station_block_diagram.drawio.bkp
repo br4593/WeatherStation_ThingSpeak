@@ -1,0 +1,76 @@
+<mxfile host="Electron" modified="2024-04-20T07:36:55.333Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/22.1.2 Chrome/114.0.5735.289 Electron/25.9.4 Safari/537.36" etag="cAOpE9KKKKkhyI7Si8AH" version="22.1.2" type="device">
+  <diagram name="Page-1" id="7WxC0Zplg_3du7F2lv0y">
+    <mxGraphModel dx="433" dy="301" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="iVeRJZw8kCaj9EJlBlRc-2" value="ESP32" style="rounded=0;whiteSpace=wrap;html=1;direction=south;" vertex="1" parent="1">
+          <mxGeometry x="200" y="180" width="60" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="iVeRJZw8kCaj9EJlBlRc-3" value="ADS1115" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="520" y="200" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="iVeRJZw8kCaj9EJlBlRc-4" value="4 Channels&lt;br&gt;Logic Level Converter&lt;br&gt;5 to 3.3v" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="350" y="200" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="iVeRJZw8kCaj9EJlBlRc-5" value="Wind Speed&lt;br&gt;Sensor" style="rounded=0;whiteSpace=wrap;html=1;direction=south;" vertex="1" parent="1">
+          <mxGeometry x="740" y="280" width="50" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="iVeRJZw8kCaj9EJlBlRc-6" value="Wind Direction Sensor" style="rounded=0;whiteSpace=wrap;html=1;direction=south;" vertex="1" parent="1">
+          <mxGeometry x="740" y="100" width="50" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="iVeRJZw8kCaj9EJlBlRc-7" value="BME280" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="350" y="347" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="iVeRJZw8kCaj9EJlBlRc-8" value="SHT31" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="350" y="40" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="iVeRJZw8kCaj9EJlBlRc-9" value="DFRobot&lt;br&gt;Gravity Rain Sensor" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="350" y="500" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="iVeRJZw8kCaj9EJlBlRc-12" value="" style="endArrow=none;html=1;rounded=0;fontColor=#000000;fillColor=#0050ef;strokeColor=#001DBC;strokeWidth=2;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="330" y="240" as="sourcePoint" />
+            <mxPoint x="330" y="100" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="iVeRJZw8kCaj9EJlBlRc-14" value="" style="endArrow=none;html=1;rounded=1;entryX=0;entryY=0.75;entryDx=0;entryDy=0;fontColor=#0000FF;fillColor=#0050ef;strokeColor=#001DBC;" edge="1" parent="1" target="iVeRJZw8kCaj9EJlBlRc-8">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="330" y="100" as="sourcePoint" />
+            <mxPoint x="400" y="160" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="iVeRJZw8kCaj9EJlBlRc-17" value="" style="endArrow=none;html=1;rounded=0;fontColor=#000000;fillColor=#0050ef;strokeColor=#001DBC;strokeWidth=2;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="330" y="400" as="sourcePoint" />
+            <mxPoint x="330" y="240" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="iVeRJZw8kCaj9EJlBlRc-22" value="" style="endArrow=none;html=1;rounded=0;fontColor=#000000;fillColor=#0050ef;strokeColor=#001DBC;strokeWidth=2;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="330" y="540" as="sourcePoint" />
+            <mxPoint x="330" y="400" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="iVeRJZw8kCaj9EJlBlRc-24" value="" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontColor=#000000;fillColor=#0050ef;strokeColor=#001DBC;strokeWidth=2;" edge="1" parent="1" target="iVeRJZw8kCaj9EJlBlRc-9">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="330" y="540" as="sourcePoint" />
+            <mxPoint x="340" y="440" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="iVeRJZw8kCaj9EJlBlRc-26" value="I2C 3.3v" style="endArrow=none;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontColor=#000000;fillColor=#0050ef;strokeColor=#001DBC;labelPosition=center;verticalLabelPosition=top;align=center;verticalAlign=bottom;strokeWidth=2;" edge="1" parent="1" source="iVeRJZw8kCaj9EJlBlRc-2" target="iVeRJZw8kCaj9EJlBlRc-4">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="300" y="300" as="sourcePoint" />
+            <mxPoint x="350" y="250" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="iVeRJZw8kCaj9EJlBlRc-29" value="I2C 5V" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;labelPosition=center;verticalLabelPosition=top;align=center;verticalAlign=bottom;fillColor=#6a00ff;strokeColor=#3700CC;strokeWidth=3;" edge="1" parent="1" source="iVeRJZw8kCaj9EJlBlRc-4" target="iVeRJZw8kCaj9EJlBlRc-3">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="360" y="300" as="sourcePoint" />
+            <mxPoint x="410" y="250" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

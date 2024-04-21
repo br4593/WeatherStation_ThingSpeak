@@ -1,4 +1,4 @@
-# ESP32-S2 Mini Weather Station
+# ESP32 Weather Station
 
 ![Weather Station](docs/wind.jpg)
 

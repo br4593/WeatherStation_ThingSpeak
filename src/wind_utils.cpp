@@ -129,7 +129,7 @@ void readAverageWinds(float& wind_speed, int& wind_direction)
 
 int readWindDir()
 {
-  Serial.println("Debugging readWindDir Function");
+  //Serial.println("Debugging readWindDir Function");
 
   // Read ADC channel for wind direction sensor
   int16_t wind_dir_adc_ch_reading = ads.readADC_SingleEnded(WIND_DIR_SENSOR_ADC_CHANNEL);
@@ -137,8 +137,8 @@ int readWindDir()
   // Convert ADC reading to voltage
   float wind_dir_volts = ads.computeVolts(wind_dir_adc_ch_reading);
 
-  Serial.print("Current volts is: ");
-  Serial.println(wind_dir_volts);
+  /*Serial.print("Current volts is: ");
+  Serial.println(wind_dir_volts);*/
 
   // Variable to store the wind direction
   int temp_wind_dir = -1;
@@ -146,8 +146,8 @@ int readWindDir()
   // Find the corresponding wind direction based on voltage
   for (int i = 0; i < sizeof(directions) / sizeof(directions[0]); i++) {
     if (wind_dir_volts >= directions[i].voltageMin && wind_dir_volts < directions[i].voltageMax) {
-      Serial.print("Found a direction: ");
-      Serial.println(directions[i].name);
+      /*Serial.print("Found a direction: ");
+      Serial.println(directions[i].name);*/
       temp_wind_dir = directions[i].degrees;
       break; // Exit the loop once a direction is found
     }

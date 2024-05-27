@@ -4,7 +4,7 @@
 
 DNSServer dns;
 WiFiClient client;
-WiFiManager wifiManager;
+WiFiManager wm;
 WebServer server(80);
 
 
@@ -74,34 +74,61 @@ void onOTAEnd(bool success) {
   // <Add your own code here>
 }
 
-void checkButton()
+/*void checkButton()
 {
-   buttonState = digitalRead(TRIGGER_PIN);
-    // Check if the button was pressed
+  buttonState = digitalRead(TRIGGER_PIN);
+   // Check if the button was pressed
   if (buttonState == LOW && lastButtonState == HIGH) {
-    buttonPressed = true;
+   buttonPressed = true;
   }
 
   // Check if the button was released
   if (buttonState == HIGH && lastButtonState == LOW) {
-    buttonPressed = false;
+   buttonPressed = false;
   }
 
   if (buttonPressed) {
-    wifiManager.setConfigPortalTimeout(timeout);
+   wifiManager.setConfigPortalTimeout(timeout);
 
-    if (!wifiManager.startConfigPortal(WIFI_CONFIG_AP,WIFI_CONFIG_PASS)) {
-      Serial.println("failed to connect and hit timeout");
-      delay(3000);
-      //reset and try again, or maybe put it to deep sleep
-      ESP.restart();
-      delay(5000);
-    }
+   if (!wifiManager.startConfigPortal(WIFI_CONFIG_AP,WIFI_CONFIG_PASS)) {
+    Serial.println("failed to connect and hit timeout");
+    delay(3000);
+    //reset and try again, or maybe put it to deep sleep
+    ESP.restart();
+    delay(5000);
+   }
 
 
-    //if you get here you have connected to the WiFi
-    Serial.println("connected...yeey :)");
+   //if you get here you have connected to the WiFi
+   Serial.println("connected...yeey :)");
   }
 
   lastButtonState = buttonState;
+
+  // Debug print
+  Serial.print("Button State: ");
+  Serial.println(buttonState);
+}*/
+void checkButton(){
+  // is auto timeout portal running
+  if(portalRunning){
+    wm.process();
+  }
+
+  // is configuration portal requested?
+  if(digitalRead(TRIGGER_PIN) == LOW) {
+    delay(50);
+    if(digitalRead(TRIGGER_PIN) == LOW) {
+      if(!portalRunning){
+        Serial.println("Button Pressed, Starting Portal");
+        wm.startWebPortal();
+        portalRunning = true;
+      }
+      else{
+        Serial.println("Button Pressed, Stopping Portal");
+        wm.stopWebPortal();
+        portalRunning = false;
+      }
+    }
+  }
 }

@@ -6,8 +6,7 @@ void setup() {
   Serial.begin(115200);
   Serial.println("Booting");
 
-  // Initialize ThingSpeak client
-  ThingSpeak.begin(client);
+ 
 
   // Set LED pin as output
   pinMode(LED_PIN, OUTPUT);
@@ -18,13 +17,19 @@ void setup() {
   // Set authentication credentials for OTA updates
   ElegantOTA.setAuth(OTA_USER, OTA_PASS);
 
+   /*// Set WiFi mode to station mode
+  WiFi.mode(WIFI_STA);*/
+  wm.setConnectTimeout(60);
+  wm.autoConnect(WIFI_CONFIG_AP,WIFI_CONFIG_PASS);
+  
+  delay(100);
+
   // Set pin modes for trigger, green LED, and red LED
   pinMode(TRIGGER_PIN, INPUT_PULLUP);
   pinMode(GREEN_LED_PIN, OUTPUT);
   pinMode(RED_LED_PIN, OUTPUT);
 
-  // Set WiFi mode to station mode
-  WiFi.mode(WIFI_STA);
+ 
 
   // Delay for stability
   delay(1000);
@@ -34,33 +39,47 @@ void setup() {
   digitalWrite(RED_LED_PIN, HIGH);
 
   // Set I2C pins
+  Serial.println("Setting up I2C pins...");
   setI2C();
 
   // Delay for stability
   delay(500);
 
   // Initialize all I2C sensors
+  Serial.println("Initializing sensors...");
   initSensors();
+
+   // Initialize ThingSpeak client
+  ThingSpeak.begin(client);
 
   // Delay for stability
   delay(1000);
 
   // Initial reading of all sensor values upon startup
-  temperature = readTemperature();
-  humidity = readHumidity();
-  pressure = readPressure();
-  wind_speed = readWindSpeed();
-  wind_direction = readWindDir();
+  if (checkForSensorsError()) {
+    printError(errorInfo);
+  } else {
+    Serial.println("Reading sensor data...");
+    temperature = readTemperature();
+    humidity = readHumidity();
+    pressure = readPressure();
+    wind_speed = readWindSpeed();
+    wind_direction = readWindDir();
+  }
+  
 
   // Define root route for HTTP server
+  Serial.println("Setting up HTTP server...");
   server.on("/", []() {
     server.send(200, "text/plain", "Hi! This is ElegantOTA Demo.");
   });
 
   // Start ElegantOTA
+  Serial.println("Starting OTA server...");
   ElegantOTA.begin(&server);
 
   // Start HTTP server
+  Serial.println("Starting HTTP server...");
   server.begin();
   Serial.println("HTTP server started");
 
@@ -89,16 +108,20 @@ void setup() {
   
 
   // Upload data to ThingSpeak
-  uploadData();
+  if (WiFi.status() == WL_CONNECTED) {
+    Serial.println("Wifi connected");
+    uploadData();
+    delay(15000);
+    currentRainfall = ThingSpeak.readFloatField(TS_CH,RAIN_CH,READ_TS_API_KEY);
+  }
 
-  delay(15000);
+  
 
-  // Read current rainfall from ThingSpeak
-
-  currentRainfall = ThingSpeak.readFloatField(TS_CH,RAIN_CH,READ_TS_API_KEY);
 }
 
 void loop() {
+  //Serial.println("Looping...");
+  //checkButton();
 
   // Delay for stability
   delay(100);
@@ -117,17 +140,16 @@ void loop() {
     currentRainfall = 0;
   }
 
-spd_voltage_debug = ads.computeVolts(ads.readADC_SingleEnded(1));
-dir_voltage_debug = ads.computeVolts(ads.readADC_SingleEnded(WIND_DIR_SENSOR_ADC_CHANNEL));
+//spd_voltage_debug = ads.computeVolts(ads.readADC_SingleEnded(1));
+//dir_voltage_debug = ads.computeVolts(ads.readADC_SingleEnded(WIND_DIR_SENSOR_ADC_CHANNEL));
 
   // Print formatted time
-  Serial.println(timeClient.getFormattedTime());
+  //Serial.println(timeClient.getFormattedTime());
 
   // Delay for stability
   delay(1000);
 
-  // Check button state
-  checkButton();
+
 
   // Check WiFi connection
   if (WiFi.status() != WL_CONNECTED) {

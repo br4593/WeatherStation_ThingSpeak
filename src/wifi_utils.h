@@ -1,7 +1,7 @@
 
 //#include <ESPAsyncWiFiManager.h>   
 //extern AsyncWiFiManager wifiManager;
-#define TRIGGER_PIN 4
+#define TRIGGER_PIN 15
 
 #include "main_utils.h"
 #include <WiFiManager.h>
@@ -11,7 +11,7 @@
 
 
 
-extern WiFiManager wifiManager;
+extern WiFiManager wm;
 extern DNSServer dns;
 extern WiFiClient client;
 extern WebServer server;

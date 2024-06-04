@@ -9,6 +9,7 @@ unsigned long last_sensors_reading_time = 0;
 unsigned long last_wind_sample_time = 0;
 const unsigned long serial_print_interval = 60000; // Print sensor data every 1 minute
 const unsigned long wifi_status_interval = 30000; 
+int latest_http_response = 0;
 
 int SENSORS_READING_INTERVAL_IN_MINUTES = 15;
 int SENSORS_READING_INTERVAL = SENSORS_READING_INTERVAL_IN_MINUTES * 60 * 1000;
@@ -186,8 +187,9 @@ float cal_vpd(float t, float h) {
 /**
  * Uploads sensor data to ThingSpeak.
  */
-void uploadData() {
+int uploadData() {
   // Check if sensor data needs to be uploaded
+  int response = 0;
   if (sensors_flag) {
     ThingSpeak.setField(HUMIDITY_CH, humidity);
     ThingSpeak.setField(TEMP_CH, temperature);
@@ -199,7 +201,7 @@ void uploadData() {
     if (millis() - previous_upload_time > MINIMUM_UPLOAD_INTERVAL)// Check if minimum upload interval has elapsed
     {
       previous_upload_time = millis();// Update last upload time
-      int response = ThingSpeak.writeFields(TS_CH, WRITE_TS_API_KEY);
+      response = ThingSpeak.writeFields(TS_CH, WRITE_TS_API_KEY);
 
     if (response == 200) {
       Serial.println("Sensor data sent to ThingSpeak successfully!");
@@ -221,7 +223,7 @@ void uploadData() {
     if (millis() - previous_upload_time > MINIMUM_UPLOAD_INTERVAL)// Check if minimum upload interval has elapsed
     {
       previous_upload_time = millis();
-      int response = ThingSpeak.writeFields(TS_CH, WRITE_TS_API_KEY);
+      response = ThingSpeak.writeFields(TS_CH, WRITE_TS_API_KEY);
 
     if (response == 200) {
       Serial.println("Wind data sent to ThingSpeak successfully!");
@@ -237,6 +239,8 @@ void uploadData() {
 
 
   }
+
+  return response;
 }
 
 

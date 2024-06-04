@@ -42,9 +42,11 @@ extern unsigned long last_serial_print_time;
 extern unsigned long last_wifi_status_time;
 extern const unsigned long serial_print_interval;
 extern const unsigned long wifi_status_interval;
+extern int latest_http_response;
 
 extern const unsigned int MINIMUM_UPLOAD_INTERVAL;
 extern const uint32_t connectTimeoutMs;
+extern unsigned int previous_upload_time;
 
 //global sensors variables
 extern float temperature;
@@ -141,7 +143,7 @@ float cal_vpd(float t, float h);
  * @brief Reconnect to the WiFi network
  */
 
-void uploadData();
+int uploadData();
 
 
 

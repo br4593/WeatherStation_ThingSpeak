@@ -19,6 +19,8 @@ void debugPage()
   html += "<p>SHT31 error status: " + String(errorInfo.sht31) + "</p>";
   html += "<p>BME280 error status: " + String(errorInfo.bme280) + "</p>";
   html += "<p>Error status: " + String(error_debug) + "</p>";
+  html += "<p> Latest HTTP Response: " + String(latest_http_response) + "</p>";
+  html += "<p> Latest upload time: " + String(previous_upload_time) + "</p>";
   html += "</body></html>";
   server.send(200, "text/html", html);
 });

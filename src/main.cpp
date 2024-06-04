@@ -140,8 +140,8 @@ void loop() {
     currentRainfall = 0;
   }
 
-//spd_voltage_debug = ads.computeVolts(ads.readADC_SingleEnded(1));
-//dir_voltage_debug = ads.computeVolts(ads.readADC_SingleEnded(WIND_DIR_SENSOR_ADC_CHANNEL));
+spd_voltage_debug = ads.computeVolts(ads.readADC_SingleEnded(WIND_SPEED_SENSOR_ADC_CHANNEL));
+dir_voltage_debug = ads.computeVolts(ads.readADC_SingleEnded(WIND_DIR_SENSOR_ADC_CHANNEL));
 
   // Print formatted time
   //Serial.println(timeClient.getFormattedTime());
@@ -204,7 +204,7 @@ void loop() {
   readWindData(wind_direction, wind_speed);
 
   // Upload data to ThingSpeak
-  uploadData();
+  latest_http_response = uploadData();
 
   // Print sensor data and WiFi status at specified interval
   if (millis() - last_serial_print_time >= serial_print_interval) {

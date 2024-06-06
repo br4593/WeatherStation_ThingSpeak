@@ -36,7 +36,7 @@ This repository contains the code and instructions to set up an ESP32 weather st
 
 ## PCB Diagram
 
-Follow the wiring diagram below to connect the components properly:
+The following digaram describers the PCB wirings:
 
 ![Wiring Diagram](docs/wiring_diagram.png)
 

@@ -2,7 +2,7 @@
 #define SECRETS_H
 
 //ThingSpeak definitions
-#define TS_CH 2209504
+#define TS_CH 111111
 #define WRITE_TS_API_KEY ""
 #define READ_TS_API_KEY ""
 #define HUMIDITY_CH 2

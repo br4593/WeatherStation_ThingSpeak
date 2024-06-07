@@ -19,9 +19,10 @@ void setup() {
 
    /*// Set WiFi mode to station mode
   WiFi.mode(WIFI_STA);*/
-  //wm.setConnectTimeout(60);
-  //wm.autoConnect(WIFI_CONFIG_AP,WIFI_CONFIG_PASS);
+wm.setConnectTimeout(60);
+wm.autoConnect(WIFI_CONFIG_AP,WIFI_CONFIG_PASS);
 
+/*
   // Connect to WiFi
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
   while (WiFi.status() != WL_CONNECTED) {
@@ -31,7 +32,7 @@ void setup() {
   Serial.println("");
   Serial.println("WiFi connected");
   Serial.println("IP address: " + WiFi.localIP().toString());
-  
+  */
   delay(100);
 
   // Set pin modes for trigger, green LED, and red LED

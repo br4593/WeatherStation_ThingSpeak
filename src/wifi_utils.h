@@ -8,12 +8,15 @@
 #include <ElegantOTA.h>
 #include <Ticker.h>
 #include <WiFi.h>
+//#include <WiFiClientSecure.h>
+
 
 
 
 extern WiFiManager wm;
 extern DNSServer dns;
 extern WiFiClient client;
+//extern WiFiClientSecure client;
 extern WebServer server;
 
 

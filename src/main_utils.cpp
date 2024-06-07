@@ -14,7 +14,7 @@ int latest_http_response = 0;
 int SENSORS_READING_INTERVAL_IN_MINUTES = 15;
 int SENSORS_READING_INTERVAL = SENSORS_READING_INTERVAL_IN_MINUTES * 60 * 1000;
 
-const unsigned int MINIMUM_UPLOAD_INTERVAL = 15000;
+const unsigned int MINIMUM_UPLOAD_INTERVAL = 25000;
 unsigned int previous_upload_time = 0;
 
 // Flags to indicate which sensor data to read
@@ -200,6 +200,7 @@ int uploadData() {
 
     if (millis() - previous_upload_time > MINIMUM_UPLOAD_INTERVAL)// Check if minimum upload interval has elapsed
     {
+    
       previous_upload_time = millis();// Update last upload time
       response = ThingSpeak.writeFields(TS_CH, WRITE_TS_API_KEY);
 
@@ -222,6 +223,7 @@ int uploadData() {
 
     if (millis() - previous_upload_time > MINIMUM_UPLOAD_INTERVAL)// Check if minimum upload interval has elapsed
     {
+      
       previous_upload_time = millis();
       response = ThingSpeak.writeFields(TS_CH, WRITE_TS_API_KEY);
 

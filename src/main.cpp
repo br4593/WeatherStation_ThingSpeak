@@ -1,5 +1,5 @@
 #include "main_utils.h"
-
+#define TS_ENABLE_SSL // For HTTPS SSL connection
 
 void setup() {
   // Initialize serial communication
@@ -19,8 +19,18 @@ void setup() {
 
    /*// Set WiFi mode to station mode
   WiFi.mode(WIFI_STA);*/
-  wm.setConnectTimeout(60);
-  wm.autoConnect(WIFI_CONFIG_AP,WIFI_CONFIG_PASS);
+  //wm.setConnectTimeout(60);
+  //wm.autoConnect(WIFI_CONFIG_AP,WIFI_CONFIG_PASS);
+
+  // Connect to WiFi
+  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println("");
+  Serial.println("WiFi connected");
+  Serial.println("IP address: " + WiFi.localIP().toString());
   
   delay(100);
 
@@ -205,6 +215,10 @@ dir_voltage_debug = ads.computeVolts(ads.readADC_SingleEnded(WIND_DIR_SENSOR_ADC
 
   // Upload data to ThingSpeak
   latest_http_response = uploadData();
+
+  if (latest_http_response != 200) {
+    latest_http_response = uploadData();
+  }
 
   // Print sensor data and WiFi status at specified interval
   if (millis() - last_serial_print_time >= serial_print_interval) {

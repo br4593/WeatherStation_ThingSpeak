@@ -3,7 +3,7 @@
 
 //ThingSpeak definitions
 #define TS_CH 2209504
-#define WRITE_TS_API_KEY "OF6CVEMHFWTZXMYO"
+#define WRITE_TS_API_KEY "UGI3CCGGNWAO5JIT"
 #define READ_TS_API_KEY "0WMMKMXO41XA4M53"
 #define HUMIDITY_CH 2
 #define TEMP_CH 1
@@ -20,5 +20,7 @@
 #define WIFI_CONFIG_AP "WeatherStation-WiFiConfig"
 #define WIFI_CONFIG_PASS "11223344"
 
+#define WIFI_SSID "rodoy"
+#define WIFI_PASSWORD "0544543538"
 
 #endif // SECRETS_H

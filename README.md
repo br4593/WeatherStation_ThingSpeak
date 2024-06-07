@@ -32,7 +32,7 @@ This repository contains the code and instructions to set up an ESP32 weather st
 
 ## Block Diagram
 
-![](media/306a9cfeca42db9df8390bd871be2ecf.png)
+![](docs/weather_station_block_diagram.drawio.png)
 
 ## PCB Diagram
 

@@ -1,6 +1,7 @@
 # ESP32 Weather Station
 
 ![Weather Station](docs/wind.jpg)
+![](docs/box.jpg)
 
 This repository contains the code and instructions to set up an ESP32 weather station. The weather station is equipped with various sensors to measure wind speed, wind direction, pressure, humidity, and temperature. Additionally, it includes LEDs for status indication and necessary components for proper sensor interfacing.
 

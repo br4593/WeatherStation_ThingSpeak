@@ -166,8 +166,7 @@ dir_voltage_debug = ads.computeVolts(ads.readADC_SingleEnded(WIND_DIR_SENSOR_ADC
   if (WiFi.status() != WL_CONNECTED) {
     Serial.println("Wifi not connected");
     greenLedTicker.attach(0.5, flashGreenLed);
-    WiFi.begin();
-    delay(500);
+    ESP.restart();
   }
 
   // If WiFi is connected, turn off green LED

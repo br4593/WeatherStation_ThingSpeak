@@ -158,7 +158,7 @@ dir_voltage_debug = ads.computeVolts(ads.readADC_SingleEnded(WIND_DIR_SENSOR_ADC
   //Serial.println(timeClient.getFormattedTime());
 
   // Delay for stability
-  delay(1000);
+  delay(500);
 
 
 

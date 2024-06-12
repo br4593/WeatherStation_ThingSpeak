@@ -2,9 +2,9 @@
 #define SECRETS_H
 
 //ThingSpeak definitions
-#define TS_CH 111111
-#define WRITE_TS_API_KEY ""
-#define READ_TS_API_KEY ""
+#define TS_CH 2209504
+#define WRITE_TS_API_KEY "UGI3CCGGNWAO5JIT"
+#define READ_TS_API_KEY "0WMMKMXO41XA4M53"
 #define HUMIDITY_CH 2
 #define TEMP_CH 1
 #define PRESSURE_CH 3
@@ -17,8 +17,8 @@
 #define OTA_USER ""
 #define OTA_PASS ""
 
-#define WIFI_CONFIG_AP ""
-#define WIFI_CONFIG_PASS ""
+#define WIFI_CONFIG_AP "ESP32-WeatherStation"
+#define WIFI_CONFIG_PASS "11223344"
 
 #define WIFI_SSID ""
 #define WIFI_PASSWORD ""

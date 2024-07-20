@@ -276,24 +276,31 @@ void flashRedLed()
 }
 
 // Function to calculate the heat index
-float calculateHeatIndex(float temperature, float humidity) {
+float calculateHeatIndex(float temperatureCelsius, float humidity) {
+    // Convert Celsius to Fahrenheit
+    float temperatureFahrenheit = (temperatureCelsius * 9.0 / 5.0) + 32.0;
+    
     // Check if the temperature is in the valid range
-    if (temperature < 80.0 || humidity < 40.0) {
-        return temperature; // Heat index is approximately the same as the actual temperature
+    if (temperatureFahrenheit < 80.0 || humidity < 40.0) {
+        return temperatureCelsius; // Heat index is approximately the same as the actual temperature in Celsius
     }
     
-    // Calculate the heat index
-    float heatIndex = -42.379 + 2.04901523 * temperature + 10.14333127 * humidity
-                      - 0.22475541 * temperature * humidity - 6.83783e-03 * temperature * temperature
-                      - 5.481717e-02 * humidity * humidity + 1.22874e-03 * temperature * temperature * humidity
-                      + 8.5282e-04 * temperature * humidity * humidity - 1.99e-06 * temperature * temperature * humidity * humidity;
+    // Calculate the heat index in Fahrenheit using the formula
+    float heatIndexFahrenheit = -42.379 + 2.04901523 * temperatureFahrenheit + 10.14333127 * humidity
+                      - 0.22475541 * temperatureFahrenheit * humidity - 0.00683783 * temperatureFahrenheit * temperatureFahrenheit
+                      - 0.05481717 * humidity * humidity + 0.00122874 * temperatureFahrenheit * temperatureFahrenheit * humidity
+                      + 0.00085282 * temperatureFahrenheit * humidity * humidity - 0.00000199 * temperatureFahrenheit * temperatureFahrenheit * humidity * humidity;
     
-    // Ensure the heat index is within a valid range
-    if (heatIndex < temperature) {
-        return temperature; // Heat index cannot be lower than the temperature
+    // Ensure the heat index is not lower than the temperature in Fahrenheit
+    if (heatIndexFahrenheit < temperatureFahrenheit) {
+        return temperatureCelsius; // Return the original Celsius temperature
     }
     
-    return heatIndex;
+    // Convert the heat index back to Celsius
+    float heatIndexCelsius = (heatIndexFahrenheit - 32.0) * 5.0 / 9.0;
+    
+    return heatIndexCelsius;
 }
+
 
 

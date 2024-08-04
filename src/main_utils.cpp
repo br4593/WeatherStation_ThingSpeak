@@ -196,7 +196,7 @@ int uploadData() {
     ThingSpeak.setField(PRESSURE_CH, pressure);
     ThingSpeak.setField(VPD_CH, cal_vpd(temperature, humidity));
     ThingSpeak.setField(HI_CH, calculateHeatIndex(temperature, humidity));
-    ThingSpeak.setField(RAIN_CH, rain_sensor.getRainfall(1));
+
 
     if (millis() - previous_upload_time > MINIMUM_UPLOAD_INTERVAL)// Check if minimum upload interval has elapsed
     {
@@ -301,6 +301,7 @@ float calculateHeatIndex(float temperatureCelsius, float humidity) {
     
     return heatIndexCelsius;
 }
+
 
 
 

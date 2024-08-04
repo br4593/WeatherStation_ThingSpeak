@@ -14,7 +14,7 @@ void debugPage()
   html += "<p>Wind Speed Voltage: " + String(spd_voltage_debug, 2) + " V</p>";
   html += "<p>Wind Direction: " + String(wind_direction) + " degrees</p>";
   html += "<p>Wind Direction Voltage: " + String(dir_voltage_debug, 2) + " V</p>";
-  html += "<p>Rainfall: " + String(currentRainfall, 2) + " mm</p>";
+  html += "<p>Last hour Rainfall: " + String(rain_sensor.getRainfall(1)) + " mm</p>";
   html += "<p>ADS1115 error status: " + String(errorInfo.ads1115) + "</p>";
   html += "<p>SHT31 error status: " + String(errorInfo.sht31) + "</p>";
   html += "<p>BME280 error status: " + String(errorInfo.bme280) + "</p>";

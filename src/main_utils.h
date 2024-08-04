@@ -41,12 +41,14 @@ extern unsigned long last_wind_sample_time;
 extern unsigned long last_sensors_reading_time;
 extern unsigned long last_serial_print_time;
 extern unsigned long last_wifi_status_time;
-extern const unsigned long serial_print_interval;
-extern const unsigned long wifi_status_interval;
+extern const unsigned long SERIAL_PRINT_INTERVAL;
+extern const unsigned long WIFI_STATUS_INTERVAL;
+extern const unsigned long NTP_UPDATE_INTERVAL;
+extern unsigned long last_ntp_update_time;
 extern int latest_http_response;
 
 extern const unsigned int MINIMUM_UPLOAD_INTERVAL;
-extern const uint32_t connectTimeoutMs;
+extern const uint32_t CONNECT_TIMEOUT_MS;
 extern unsigned int previous_upload_time;
 
 //global sensors variables

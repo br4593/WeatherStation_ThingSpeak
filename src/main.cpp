@@ -97,6 +97,8 @@ wm.autoConnect(WIFI_CONFIG_AP,WIFI_CONFIG_PASS);
   // Display debug page
   debugPage();
 
+
+/*
   // Initialize time client
   timeClient.begin();
 
@@ -107,6 +109,16 @@ wm.autoConnect(WIFI_CONFIG_AP,WIFI_CONFIG_PASS);
   timeClient.setTimeOffset(10800);
 
   currentDay = timeClient.getDay();
+  */
+
+
+  initTime(JERUSALEM_TZ);
+  delay(500);
+  printLocalTime();
+
+  rtc.setTimeStruct(timeinfo);
+
+  currentDay = timeinfo.tm_mday;
 
   // Set flags
   sensors_flag = true;
@@ -144,7 +156,7 @@ void loop() {
   ElegantOTA.loop();
 
   // Update time client
-  timeClient.update();
+  //timeClient.update();
   
   if (currentDay != timeClient.getDay())
   {
@@ -213,6 +225,8 @@ dir_voltage_debug = ads.computeVolts(ads.readADC_SingleEnded(WIND_DIR_SENSOR_ADC
   // Read wind data
   readWindData(wind_direction, wind_speed);
 
+  currentRainfall = rain_sensor.getRainfall();
+
   // Upload data to ThingSpeak
   latest_http_response = uploadData();
 
@@ -221,9 +235,14 @@ dir_voltage_debug = ads.computeVolts(ads.readADC_SingleEnded(WIND_DIR_SENSOR_ADC
   }
 
   // Print sensor data and WiFi status at specified interval
-  if (millis() - last_serial_print_time >= serial_print_interval) {
+  if (millis() - last_serial_print_time >= SERIAL_PRINT_INTERVAL) {
     last_serial_print_time = millis();
     printSensorData(temperature, humidity, pressure, wind_speed, wind_direction);
     printWiFiStatus();
   }
+
+  updateNtpTime();
+  updateRtcTime();
+
 }
+  

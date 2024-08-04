@@ -7,10 +7,11 @@ unsigned long last_serial_print_time = 0;
 unsigned long last_wifi_status_time = 0;
 unsigned long last_sensors_reading_time = 0;
 unsigned long last_wind_sample_time = 0;
-const unsigned long serial_print_interval = 60000; // Print sensor data every 1 minute
-const unsigned long wifi_status_interval = 30000; 
+const unsigned long SERIAL_PRINT_INTERVAL = 60000; // Print sensor data every 1 minute
+const unsigned long WIFI_STATUS_INTERVAL = 30000; 
+const unsigned long NTP_UPDATE_INTERVAL = 12 * 60 * 60000; // Update RTC every 12 hours
+unsigned long last_ntp_update_time = 0;
 int latest_http_response = 0;
-
 int SENSORS_READING_INTERVAL_IN_MINUTES = 15;
 int SENSORS_READING_INTERVAL = SENSORS_READING_INTERVAL_IN_MINUTES * 60 * 1000;
 
@@ -54,7 +55,6 @@ bool greenLedState = false;
 WiFiUDP ntpUDP;
 NTPClient timeClient(ntpUDP);
 
-int currentDay;
 
 
 /**

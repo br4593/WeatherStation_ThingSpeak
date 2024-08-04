@@ -1,97 +1,78 @@
 #include "time_utils.h"
-
-
 #include <time.h>
 
+ESP32Time rtc;
 const char* ntpServer = "pool.ntp.org";
-const long  gmtOffset_sec = 2 * 3600;            // GMT offset for Israel (2 hours ahead of UTC)
+struct tm timeinfo;
+const char* JERUSALEM_TZ = "IST-2IDT,M3.4.4/26,M10.5.0";
+int currentDay = 0;
 
-void printLocalTime()
-{
-    struct tm timeinfo;
-    if (!getLocalTime(&timeinfo))
-    {
-        // Failed to obtain time
-        Serial.println("Failed to obtain time");
-        return;
-    }
+//const long  gmtOffset_sec = 2 * 3600;            // GMT offset for Israel (2 hours ahead of UTC)
 
-    // Convert time to local time zone considering GMT offset and DST
-    time_t adjustedTime = mktime(&timeinfo);
-    if (timeinfo.tm_isdst)
-    {
-        adjustedTime -= 3600; // Subtract an hour during DST
-    }
+void setTimezone(String timezone){
+  Serial.printf("  Setting Timezone to %s\n",timezone.c_str());
+  setenv("TZ",timezone.c_str(),1);  //  Now adjust the TZ.  Clock settings are adjusted to show the new local time
+  tzset();
+}
 
-    // Convert adjusted time to a struct tm
-    struct tm *adjustedTimeinfo = localtime(&adjustedTime);
+boolean initTime(String timezone){
+  //struct tm timeinfo;
 
-    // Format the time string
-    char timeString[50];
-    strftime(timeString, sizeof(timeString), "%A, %B %d %Y %H:%M:%S", adjustedTimeinfo);
+  Serial.println("Setting up time");
+  configTime(0, 0, ntpServer);    // First connect to NTP server, with 0 TZ offset
+  if(!getLocalTime(&timeinfo)){
+    Serial.println("  Failed to obtain time");
+    return false;
+  }
+  Serial.println("  Got the time from NTP");
+  // Now we can set the real timezone
+  setTimezone(timezone);
+  last_ntp_update_time = millis();
+  return true;
+}
 
-    // Print the local time
-    Serial.println(timeString);
-    Serial.println("--------------------");
+void printLocalTime(){
+  //struct tm timeinfo;
+  if(!getLocalTime(&timeinfo)){
+    Serial.println("Failed to obtain time");
+    return;
+  }
+  Serial.println(&timeinfo, "%A, %B %d %Y %H:%M:%S zone %Z %z ");
 }
 
 
-void setupTime()
-{
-  // Initialize and get the time
-  configTime(gmtOffset_sec, 0, ntpServer);  // Disable DST initially
-  printLocalTime();
-  
-  // Enable or disable DST based on current date
-  struct tm timeinfo;
-  if (getLocalTime(&timeinfo)) {
-    int currentYear = timeinfo.tm_year + 1900;
-    int dstStartMonth = 3;   // DST starts in March (month index: 0-11)
-    int dstEndMonth = 10;    // DST ends in October (month index: 0-11)
-    int dstStartWeek = 5;    // DST starts on the last Sunday of March (week index: 1-5)
-    int dstEndWeek = 5;      // DST ends on the last Sunday of October (week index: 1-5)
+void setTime(int yr, int month, int mday, int hr, int minute, int sec, int isDst){
+  //struct tm tm;
 
-    // Calculate DST start and end dates for the current year
-    int dstStartDay = calculateNthWeekdayOfMonth(currentYear, dstStartMonth, dstStartWeek, 0);  // 0: Sunday
-    int dstEndDay = calculateNthWeekdayOfMonth(currentYear, dstEndMonth, dstEndWeek, 0);      // 0: Sunday
-    
-    // Determine if the current date falls within DST period
-    bool isDst = false;
-    if ((timeinfo.tm_mon > dstStartMonth || (timeinfo.tm_mon == dstStartMonth && timeinfo.tm_mday >= dstStartDay)) &&
-        (timeinfo.tm_mon < dstEndMonth || (timeinfo.tm_mon == dstEndMonth && timeinfo.tm_mday <= dstEndDay))) {
-      isDst = true;
+  timeinfo.tm_year = yr - 1900;   // Set date
+  timeinfo.tm_mon = month-1;
+  timeinfo.tm_mday = mday;
+  timeinfo.tm_hour = hr;      // Set time
+  timeinfo.tm_min = minute;
+  timeinfo.tm_sec = sec;
+  timeinfo.tm_isdst = isDst;  // 1 or 0
+  time_t t = mktime(&timeinfo);
+  Serial.printf("Setting time: %s", asctime(&timeinfo));
+  struct timeval now = { .tv_sec = t };
+  settimeofday(&now, NULL);
+}
+
+
+void updateNtpTime(){
+  if(millis() - last_ntp_update_time > NTP_UPDATE_INTERVAL){
+    if(initTime(JERUSALEM_TZ)){
+      Serial.println("  Updated time from NTP");
     }
-    
-    // Adjust GMT offset and enable/disable DST accordingly
-    if (isDst) {
-      configTime(gmtOffset_sec + 3600, 3600, ntpServer);  // Enable DST
-    } else {
-      configTime(gmtOffset_sec, 0, ntpServer);            // Disable DST
+
+    else{
+      Serial.println("  Failed to update time from NTP");
     }
-    
-    // Print the updated local time and DST state
-    printLocalTime();
-    Serial.print("DST is ");
-    Serial.println(isDst ? "enabled" : "disabled");
-  } else {
-    Serial.println("Failed to obtain time");
   }
 }
 
-int calculateNthWeekdayOfMonth(int year, int month, int week, int weekday)
-{
-  struct tm timeinfo = {0};
-  timeinfo.tm_year = year - 1900;
-  timeinfo.tm_mon = month;
-  timeinfo.tm_mday = 1;
-  
-  mktime(&timeinfo);  // Normalize timeinfo structure
-  
-  int firstWeekday = timeinfo.tm_wday;
-  int daysToAdd = (weekday - firstWeekday + 7) % 7 + (week - 1) * 7;
-  
-  timeinfo.tm_mday += daysToAdd;
-  mktime(&timeinfo);  // Update timeinfo structure with the calculated date
-  
-  return timeinfo.tm_mday;
+void updateRtcTime(){
+  if (currentDay != timeinfo.tm_mday){
+    rtc.setTimeStruct(timeinfo);
+    currentDay = timeinfo.tm_mday;
+  }
 }

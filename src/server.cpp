@@ -21,6 +21,10 @@ void debugPage()
   html += "<p>Error status: " + String(error_debug) + "</p>";
   html += "<p> Latest HTTP Response: " + String(latest_http_response) + "</p>";
   html += "<p> Latest upload time: " + String(previous_upload_time) + "</p>";
+  html += "<p> Current local time: " + String(timeinfo.tm_hour) + ":" + String(timeinfo.tm_min) + ":" + String(timeinfo.tm_sec) + "</p>";
+  html += "<p> Current local date: " + String(timeinfo.tm_mday) + "/" + String(timeinfo.tm_mon + 1) + "/" + String(timeinfo.tm_year + 1900) + "</p>";
+  html += "<p> RTC time: " + String(rtc.getDateTime()) + "</p>";
+  html += "<p> Rail fall sensor version: " + String(rain_sensor.getFirmwareVersion()) + "</p>";
   html += "</body></html>";
   server.send(200, "text/html", html);
 });

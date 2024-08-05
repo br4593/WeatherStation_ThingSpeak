@@ -244,5 +244,6 @@ dir_voltage_debug = ads.computeVolts(ads.readADC_SingleEnded(WIND_DIR_SENSOR_ADC
   updateNtpTime();
   updateRtcTime();
 
+
 }
   

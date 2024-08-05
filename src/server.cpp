@@ -25,6 +25,7 @@ void debugPage()
   html += "<p> Current local date: " + String(timeinfo.tm_mday) + "/" + String(timeinfo.tm_mon + 1) + "/" + String(timeinfo.tm_year + 1900) + "</p>";
   html += "<p> RTC time: " + String(rtc.getDateTime()) + "</p>";
   html += "<p> Rail fall sensor version: " + String(rain_sensor.getFirmwareVersion()) + "</p>";
+  html += "<p> Rainfall sensor working time: " + String(rain_sensor.getSensorWorkingTime()) + " hours</p>";
   html += "</body></html>";
   server.send(200, "text/html", html);
 });

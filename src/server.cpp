@@ -26,6 +26,7 @@ void debugPage()
   html += "<p> RTC time: " + String(rtc.getDateTime()) + "</p>";
   html += "<p> Rail fall sensor version: " + String(rain_sensor.getFirmwareVersion()) + "</p>";
   html += "<p> Rainfall sensor working time: " + String(rain_sensor.getSensorWorkingTime()) + " hours</p>";
+  html += "<p> Time since last reset: " + String(millis() / 1000/ 60 / 60) + " hours</p>";
   html += "</body></html>";
   server.send(200, "text/html", html);
 });

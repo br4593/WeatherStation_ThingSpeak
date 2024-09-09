@@ -36,7 +36,8 @@ extern boolean sensors_flag;//flag to indicate if sensor data needs to be upload
 extern boolean wind_speed_flag;//flag to indicate if wind speed data needs to be uploaded
 extern boolean wind_dir_flag;//flag to indicate if wind direction data needs to be uploaded 
 
-
+  extern unsigned long restartInterval;
+  extern unsigned long lastRestartTime;
 extern unsigned long last_wind_sample_time;
 extern unsigned long last_sensors_reading_time;
 extern unsigned long last_serial_print_time;
@@ -156,5 +157,7 @@ void flashRedLed();
 bool checkForSensorsError();
 
 float calculateHeatIndex(float temperature, float humidity);
+
+void restrartESPDaily();
 
 #endif // MAIN_UTILS_H

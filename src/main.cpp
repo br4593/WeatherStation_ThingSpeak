@@ -60,6 +60,8 @@ wm.autoConnect(WIFI_CONFIG_AP,WIFI_CONFIG_PASS);
   Serial.println("Initializing sensors...");
   initSensors();
 
+  delay(1000);
+
    // Initialize ThingSpeak client
   ThingSpeak.begin(client);
 
@@ -72,9 +74,13 @@ wm.autoConnect(WIFI_CONFIG_AP,WIFI_CONFIG_PASS);
   } else {
     Serial.println("Reading sensor data...");
     temperature = readTemperature();
+    delay(100);
     humidity = readHumidity();
+    delay(100);
     pressure = readPressure();
+    delay(100);
     wind_speed = readWindSpeed();
+    delay(100);
     wind_direction = readWindDir();
   }
   
@@ -118,7 +124,12 @@ wm.autoConnect(WIFI_CONFIG_AP,WIFI_CONFIG_PASS);
 
   rtc.setTimeStruct(timeinfo);
 
+  
   currentDay = timeinfo.tm_mday;
+
+
+
+  
 
   // Set flags
   sensors_flag = true;

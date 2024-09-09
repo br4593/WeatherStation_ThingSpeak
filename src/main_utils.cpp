@@ -3,6 +3,8 @@
 
 
 // Variables to track the last reading time
+  unsigned long restartInterval = 24 * 60 * 60 * 1000; // Restart time in milliseconds
+  unsigned long lastRestartTime = 0; // Variable to store the last restart time
 unsigned long last_serial_print_time = 0;
 unsigned long last_wifi_status_time = 0;
 unsigned long last_sensors_reading_time = 0;
@@ -302,6 +304,8 @@ float calculateHeatIndex(float temperatureCelsius, float humidity) {
     return heatIndexCelsius;
 }
 
-
-
-
+void restartESPDaily() {
+    if (millis() >= restartInterval) {
+      ESP.restart();
+    }
+  }

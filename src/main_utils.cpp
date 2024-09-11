@@ -59,21 +59,37 @@ NTPClient timeClient(ntpUDP);
 
 
 
+
 /**
  * Reads sensor data from various sensors.
  *
  * @param temperature [out] - The variable to store the temperature reading.
  * @param humidity [out] - The variable to store the humidity reading.
  * @param pressure [out] - The variable to store the pressure reading.
- * @param wind_speed [out] - The variable to store the wind speed reading.
- * @param wind_direction [out] - The variable to store the wind direction reading.
  */
 void readSensorData(float& temperature, float& humidity, float& pressure) {
+
+  // Check for sensor error
+  if (errorInfo.ads1115 && errorInfo.sht31 && errorInfo.bme280)
+  {
+    return;
+  }
+  
+  // Check if enough time has passed since the last sensor reading
   if (millis() - last_sensors_reading_time >= SENSORS_READING_INTERVAL) {
     // Read temperature and humidity from SHT31 sensor
-    temperature = readTemperature();
-    humidity = readHumidity();
-    pressure = readPressure();
+    if(!errorInfo.sht31)
+    {
+      temperature = readTemperature();
+      humidity = readHumidity();
+    }
+
+    // Read pressure from BME280 sensor
+    if(!errorInfo.bme280)
+    {
+      pressure = readPressure();
+    }
+
     last_sensors_reading_time = millis();// Update last reading time
     sensors_flag = true;// Set flag to indicate that sensor data needs to be uploaded
   }

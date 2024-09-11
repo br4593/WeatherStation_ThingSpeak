@@ -71,7 +71,32 @@ wm.autoConnect(WIFI_CONFIG_AP,WIFI_CONFIG_PASS);
   // Initial reading of all sensor values upon startup
   if (checkForSensorsError()) {
     printError(errorInfo);
-  } else {
+  } 
+  
+
+  if(!errorInfo.sht31)
+  {
+    temperature = readTemperature();
+    delay(100);
+    humidity = readHumidity();
+    delay(100);
+  }
+
+  if(!errorInfo.bme280)
+  {
+    pressure = readPressure();
+    delay(100);
+  }
+
+  if(!errorInfo.ads1115)
+  {
+    wind_speed = readWindSpeed();
+    delay(100);
+    wind_direction = readWindDir();
+  }
+  
+  /*
+  else {
     Serial.println("Reading sensor data...");
     temperature = readTemperature();
     delay(100);
@@ -83,7 +108,7 @@ wm.autoConnect(WIFI_CONFIG_AP,WIFI_CONFIG_PASS);
     delay(100);
     wind_direction = readWindDir();
   }
-  
+  */
 
   // Define root route for HTTP server
   Serial.println("Setting up HTTP server...");

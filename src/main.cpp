@@ -1,5 +1,10 @@
+#include <gpio_viewer.h>
+
 #include "main_utils.h"
+
 #define TS_ENABLE_SSL // For HTTPS SSL connection
+
+GPIOViewer gpio_viewer;
 
 void setup() {
   // Initialize serial communication
@@ -174,7 +179,7 @@ wm.autoConnect(WIFI_CONFIG_AP,WIFI_CONFIG_PASS);
     currentRainfall = ThingSpeak.readFloatField(TS_CH,RAIN_CH,READ_TS_API_KEY);
   }
 
-  
+  gpio_viewer.begin();
 
 }
 

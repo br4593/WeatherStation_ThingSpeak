@@ -1,4 +1,4 @@
-#include "server.h"
+#include "debug_server.h"
 
 void debugPage()
 {

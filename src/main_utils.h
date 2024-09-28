@@ -6,6 +6,7 @@
 #include <Adafruit_Sensor.h>
 #include <NTPClient.h>
 #include <WiFiUdp.h>
+
 #include "sht_utils.h"
 #include "bme_utils.h"
 #include "ads_utils.h"
@@ -13,10 +14,10 @@
 #include "time_utils.h"
 #include "main_utils.h"
 #include "wifi_utils.h"
-#include "ThingSpeak.h"
 #include "rain_utils.h"
 #include "secrets.h"
 #include "debug_server.h"
+#include "ThingSpeak.h"
 
 
 
@@ -158,6 +159,6 @@ bool checkForSensorsError();
 
 float calculateHeatIndex(float temperature, float humidity);
 
-void restrartESPDaily();
+void restartESPDaily();
 
 #endif // MAIN_UTILS_H

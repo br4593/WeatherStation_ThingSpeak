@@ -27,6 +27,7 @@ void setup() {
 wm.setConnectTimeout(60);
 wm.autoConnect(WIFI_CONFIG_AP,WIFI_CONFIG_PASS);
 
+
 /*
   // Connect to WiFi
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
@@ -282,6 +283,7 @@ dir_voltage_debug = ads.computeVolts(ads.readADC_SingleEnded(WIND_DIR_SENSOR_ADC
     printWiFiStatus();
   }
 
+  restartESPDaily();
   updateNtpTime();
   updateRtcTime();
 

@@ -4,6 +4,7 @@ DFRobot_RainfallSensor_I2C rain_sensor(&Wire);
 
 float currentRainfall = 0.0;
 
+
 void setupRainFallSensor() {
   rain_sensor.begin();
     Serial.print("vid:\t");

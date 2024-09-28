@@ -15,6 +15,9 @@ void setup() {
 
   // Set LED pin as output
   pinMode(LED_PIN, OUTPUT);
+  pinMode(GRAVITY_RELAY_PIN, OUTPUT);
+  delay(100);
+  digitalWrite(GRAVITY_RELAY_PIN, HIGH);
 
   // Attach ticker to flash built-in LED
   ticker.attach(0.6, flashBuiltInLed);
@@ -159,9 +162,6 @@ wm.autoConnect(WIFI_CONFIG_AP,WIFI_CONFIG_PASS);
   currentDay = timeinfo.tm_mday;
 
 
-
-  
-
   // Set flags
   sensors_flag = true;
   wind_dir_flag = true;
@@ -188,6 +188,7 @@ void loop() {
   //Serial.println("Looping...");
   //checkButton();
 
+
   // Delay for stability
   delay(100);
 
@@ -200,9 +201,14 @@ void loop() {
   // Update time client
   //timeClient.update();
   
-  if (currentDay != timeClient.getDay())
+  if (currentDay != timeinfo.tm_mday)
   {
-    currentRainfall = 0;
+
+    digitalWrite(GRAVITY_RELAY_PIN, LOW);
+    delay(500);
+    digitalWrite(GRAVITY_RELAY_PIN, HIGH);
+    currentDay = timeinfo.tm_mday;
+
   }
 
 spd_voltage_debug = ads.computeVolts(ads.readADC_SingleEnded(WIND_SPEED_SENSOR_ADC_CHANNEL));

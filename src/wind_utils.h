@@ -4,8 +4,9 @@
 #include "main_utils.h"
 
 // Constants for wind speed calculation
-#define VOLTAGE_REF 5.0
-#define SPEED_MAX 30
+#define VOLTAGE_MIN 1.0
+#define VOLTAGE_MAX 5.0
+#define SPEED_MAX 30.0
 
 
 

@@ -89,7 +89,15 @@ float aveWindDir()
  * @return The wind speed in meters per second (m/s).
  */
 float computeSpeed(float voltage) {
-  return (voltage * SPEED_MAX) / VOLTAGE_REF;
+  if (voltage <= VOLTAGE_MIN) {
+    return 0.0f;
+  }
+
+  if (voltage >= VOLTAGE_MAX) {
+    return SPEED_MAX;
+  }
+
+  return ((voltage - VOLTAGE_MIN) * SPEED_MAX) / (VOLTAGE_MAX - VOLTAGE_MIN);
 }
 
 /**
